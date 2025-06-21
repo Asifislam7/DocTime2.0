@@ -1,21 +1,22 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, Clock, Users } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Calendar, Clock, Users } from "lucide-react";
+import { SignedIn, UserButton, SignedOut , SignInButton} from "@clerk/nextjs";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b">
         <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">  
-          <Image
-            src="/assets/icons/logo-full.png"
-            height={1000}
-            width={1000}
-            alt="patient"
-            className=" h-10 w-fit"
-          />
+          <div className="flex items-center gap-2">
+            <Image
+              src="/assets/icons/logo-full.png"
+              height={1000}
+              width={1000}
+              alt="patient"
+              className=" h-10 w-fit"
+            />
             <span className="text-xl font-bold">DocTime</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -33,13 +34,20 @@ export default function Home() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                Login
-              </Button>
+            
+              
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+                <SignedOut>
+                <Link href="/SignIn">
+                 <SignInButton mode="modal"> Login</SignInButton>                
             </Link>
-            <Link href="/register">
-              <Button size="sm">Register</Button>
+                </SignedOut>
+            <Link href="/SignUp">
+              <Button variant="outline" size="sm">
+                Sign Up
+              </Button>
             </Link>
           </div>
         </div>
@@ -54,8 +62,8 @@ export default function Home() {
                     Streamlined Healthcare Appointments
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Connect with healthcare professionals seamlessly. Schedule, manage, and attend appointments with
-                    ease.
+                    Connect with healthcare professionals seamlessly. Schedule,
+                    manage, and attend appointments with ease.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -95,7 +103,8 @@ export default function Home() {
                   Everything You Need for Healthcare Management
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our platform provides a comprehensive solution for both patients and healthcare providers.
+                  Our platform provides a comprehensive solution for both
+                  patients and healthcare providers.
                 </p>
               </div>
             </div>
@@ -106,7 +115,8 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-bold">Easy Scheduling</h3>
                     <p className="text-muted-foreground">
-                      Book appointments with your preferred doctors at your convenience.
+                      Book appointments with your preferred doctors at your
+                      convenience.
                     </p>
                   </div>
                 </div>
@@ -114,7 +124,9 @@ export default function Home() {
                   <Clock className="h-10 w-10 text-primary" />
                   <div>
                     <h3 className="text-xl font-bold">Flexible Rescheduling</h3>
-                    <p className="text-muted-foreground">Life happens. Easily reschedule appointments when needed.</p>
+                    <p className="text-muted-foreground">
+                      Life happens. Easily reschedule appointments when needed.
+                    </p>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start">
@@ -122,7 +134,8 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-bold">Doctor Dashboard</h3>
                     <p className="text-muted-foreground">
-                      Doctors can manage their schedule and patient appointments efficiently.
+                      Doctors can manage their schedule and patient appointments
+                      efficiently.
                     </p>
                   </div>
                 </div>
@@ -144,9 +157,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">How It Works</h2>
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                  How It Works
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our simple three-step process makes healthcare management a breeze.
+                  Our simple three-step process makes healthcare management a
+                  breeze.
                 </p>
               </div>
             </div>
@@ -157,7 +173,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Register</h3>
                 <p className="text-muted-foreground">
-                  Create an account with your personal details and medical information.
+                  Create an account with your personal details and medical
+                  information.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 border rounded-lg p-6 text-center">
@@ -166,7 +183,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Book</h3>
                 <p className="text-muted-foreground">
-                  Schedule an appointment with your preferred doctor at a convenient time.
+                  Schedule an appointment with your preferred doctor at a
+                  convenient time.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 border rounded-lg p-6 text-center">
@@ -175,7 +193,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Attend</h3>
                 <p className="text-muted-foreground">
-                  Visit the doctor at the scheduled time or attend a virtual consultation.
+                  Visit the doctor at the scheduled time or attend a virtual
+                  consultation.
                 </p>
               </div>
             </div>
@@ -186,9 +205,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Ready to Get Started?</h2>
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                  Ready to Get Started?
+                </h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of patients and doctors who are already using our platform.
+                  Join thousands of patients and doctors who are already using
+                  our platform.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -206,13 +228,13 @@ export default function Home() {
       <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <div className="flex items-center gap-2">
-          <Image
-            src="/assets/icons/logo-full.png"
-            height={1000}
-            width={1000}
-            alt="patient"
-            className=" h-10 w-fit"
-          />
+            <Image
+              src="/assets/icons/logo-full.png"
+              height={1000}
+              width={1000}
+              alt="patient"
+              className=" h-10 w-fit"
+            />
             <span className="text-lg font-bold">DocTime</span>
           </div>
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
@@ -221,5 +243,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
