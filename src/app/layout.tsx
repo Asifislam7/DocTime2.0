@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
+  weight: ["400", "700"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -25,18 +21,19 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{
-          background: "linear-gradient(to right, ivory, lightblue)",
-          color: "black",
-          fontWeight: "bold"
-        }}
-      >
-       <main className="flex-grow">{children}</main>
-      </body>
-    </html>
+      <html lang="en" className={roboto.variable}>
+        <body
+          className="antialiased"
+          style={{
+            fontFamily: "var(--font-roboto), sans-serif",
+            background: "linear-gradient(to right, ivory, lightblue)",
+            color: "black",
+            fontWeight: "bold",
+          }}
+        >
+          <main className="flex-grow">{children}</main>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
