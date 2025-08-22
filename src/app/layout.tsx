@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ToastProvider } from "@/components/ui/toast";
 
-const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DocTime",
-  description: "A healthcare app built for people, by people.",
+  title: "DocTime - Your Health, Our Priority",
+  description: "Book appointments with healthcare professionals online",
 };
 
 export default function RootLayout({
@@ -22,24 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={roboto.variable}>
-        <body
-          className="antialiased"
-          style={{
-            fontFamily: "var(--font-roboto), sans-serif",
-            background: "linear-gradient(to right, ivory, lightblue)",
-            color: "black",
-            fontWeight: "bold",
-          }}
-        >
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <ToastProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ToastProvider>
+      </body>
+    </html>
   );
 }

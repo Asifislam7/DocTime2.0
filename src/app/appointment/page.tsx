@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Listbox } from "@headlessui/react";
+import { useToast } from "@/components/ui/toast";
 
 // Dummy doctors list for demo
 const Doctors = [
@@ -95,12 +96,20 @@ export default function AppointmentPage() {
     },
   });
 
-  const [success, setSuccess] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(Doctors[0]);
+  const { addToast } = useToast();
 
   const onSubmit = async (data: FormData) => {
     try {
       console.log("Form data:", data);
+      
+      // Show loading toast
+      addToast({
+        type: 'info',
+        title: 'Submitting Appointment',
+        message: 'Please wait while we process your request...',
+        duration: 0, // Don't auto-remove
+      });
       
       // Prepare user data for backend
       const userData = {
@@ -150,15 +159,41 @@ export default function AppointmentPage() {
       const result = await response.json();
       console.log('Backend response:', result);
       
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-        reset();
-      }, 3000);
+      // Show success toast with appointment details
+      addToast({
+        type: 'success',
+        title: 'Appointment Request Sent! 🎉',
+        message: `Your appointment request has been submitted successfully. We'll contact you at ${data.email} to confirm your ${data.schedule.toLocaleDateString()} appointment with ${data.primaryPhysician}.`,
+        duration: 8000, // Show for 8 seconds
+        action: {
+          label: 'View Details',
+          onClick: () => {
+            // TODO: Show appointment details modal or navigate to confirmation page
+            console.log('Show appointment details');
+          }
+        }
+      });
+      
+      // Reset form after successful submission
+      reset();
       
     } catch (error) {
       console.error("Error submitting appointment:", error);
-      alert(`Error: ${error instanceof Error ? error.message : 'Failed to submit appointment'}`);
+      
+      // Show error toast
+      addToast({
+        type: 'error',
+        title: 'Appointment Submission Failed',
+        message: error instanceof Error ? error.message : 'Failed to submit appointment. Please try again.',
+        duration: 10000, // Show for 10 seconds
+        action: {
+          label: 'Try Again',
+          onClick: () => {
+            // TODO: Retry submission or show error details
+            console.log('Retry submission');
+          }
+        }
+      });
     }
   };
 
@@ -588,7 +623,7 @@ export default function AppointmentPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="relative overflow-hidden px-12 py-4 rounded-lg bg-gradient-to-r from-[#06A3DA] to-[#0F172B] text-white font-bold text-xl shadow-lg transition-all duration-200 animate-glow group hover:scale-105 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative overflow-hidden px-12 py-4 rounded-lg bg-gradient-to-r from-[#06A3DA] to-[#0F172B] text-white font-bold text-xl shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10">
                 {isSubmitting ? "Submitting..." : "Submit Appointment"}
@@ -598,39 +633,17 @@ export default function AppointmentPage() {
                 <span className="block h-full w-1/3 bg-white/30 blur-lg opacity-0 group-hover:opacity-100 animate-shine"></span>
               </span>
             </button>
-
-            {success && (
-              <div className="mt-6 text-[#06A3DA] text-center font-semibold text-lg animate-fade-in">
-                Appointment submitted successfully!
-              </div>
-            )}
           </div>
         </form>
       </div>
 
       <style jsx global>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slide-down {
-          from { opacity: 0; transform: translateY(-30px);}
-          to { opacity: 1; transform: translateY(0);}
-        }
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 16px #06A3DA44; }
-          50% { box-shadow: 0 0 32px #06A3DA99; }
-        }
         @keyframes shine {
           0% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
           50% { opacity: 1; }
           100% { transform: translateX(200%) skewX(-20deg); opacity: 0; }
         }
-        .animate-fade-in { animation: fade-in 1s ease; }
-        .animate-slide-down { animation: slide-down 1s cubic-bezier(.4,0,.2,1); }
-        .animate-glow { animation: glow 2s infinite alternate; }
         .animate-shine { animation: shine 3s forwards infinite; }
-        body, input, textarea, select, button { font-family: var(--font-roboto), sans-serif !important; }
       `}</style>
     </div>
   );
