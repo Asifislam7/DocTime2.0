@@ -20,29 +20,20 @@ export class UserController {
    */
   static async createUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      console.log('🎯 Create user request received');
-      console.log('📝 Request body:', JSON.stringify(req.body, null, 2));
-      
       const userData: CreateUserInput = req.body;
       
       // Basic validation
       if (!userData.clerkUserId || !userData.email || !userData.name || !userData.role) {
-        console.log('❌ Validation failed - missing required fields');
         throw new ApiError('Missing required fields: clerkUserId, email, name, role', 400);
       }
       
       // Validate role
       if (!Object.values(UserRole).includes(userData.role)) {
-        console.log('❌ Invalid role:', userData.role);
         throw new ApiError('Invalid user role', 400);
       }
       
-      console.log('✅ Validation passed, creating user...');
-      
       // Create user through service
       const user = await UserService.createUser(userData);
-      
-      console.log('✅ User created successfully:', user._id);
       
       // Return success response
       res.status(201).json({
@@ -59,7 +50,6 @@ export class UserController {
         }
       });
     } catch (error) {
-      console.log('❌ Error in createUser controller:', error);
       next(error);
     }
   }

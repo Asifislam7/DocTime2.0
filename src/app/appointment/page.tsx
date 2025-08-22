@@ -18,8 +18,38 @@ const Doctors = [
 const GenderOptions = ["male", "female", "other", "prefer_not_to_say"];
 const IdentificationTypes = ["Passport", "Driver's License", "National ID", "Social Security Card", "Other"];
 
+// Form data type
+type FormData = {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: Date;
+  gender: string;
+  address: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  insuranceProvider: string;
+  insurancePolicyNumber: string;
+  allergies: string;
+  currentMedications: string;
+  familyMedicalHistory: string;
+  pastMedicalHistory: string;
+  primaryPhysician: string;
+  schedule: Date;
+  reason: string;
+  note: string;
+  identificationType: string;
+  identificationNumber: string;
+  treatmentConsent: boolean;
+  disclosureConsent: boolean;
+  privacyConsent: boolean;
+  emailNotifications: boolean;
+  smsNotifications: boolean;
+  pushNotifications: boolean;
+};
+
 export default function AppointmentPage() {
-  const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm({
+  const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm<FormData>({
     defaultValues: {
       // Personal Information
       name: "",
@@ -68,39 +98,39 @@ export default function AppointmentPage() {
   const [success, setSuccess] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(Doctors[0]);
 
-  const onSubmit = async (data: unknown) => {
+  const onSubmit = async (data: FormData) => {
     try {
       console.log("Form data:", data);
       
       // Prepare user data for backend
       const userData = {
         clerkUserId: `temp_${Date.now()}`, // Temporary ID for now
-        email: (data as any).email,
-        name: (data as any).name,
+        email: data.email,
+        name: data.name,
         role: 'patient', // Default role for appointment booking
-        phoneNumber: (data as any).phoneNumber,
-        dateOfBirth: (data as any).dateOfBirth,
-        gender: (data as any).gender,
-        address: (data as any).address,
+        phoneNumber: data.phoneNumber,
+        dateOfBirth: data.dateOfBirth,
+        gender: data.gender,
+        address: data.address,
         
         // Medical Information
-        medicalHistory: (data as any).pastMedicalHistory ? [(data as any).pastMedicalHistory] : [],
-        allergies: (data as any).allergies ? [(data as any).allergies] : [],
-        currentMedications: (data as any).currentMedications ? [(data as any).currentMedications] : [],
-        familyMedicalHistory: (data as any).familyMedicalHistory,
-        pastMedicalHistory: (data as any).pastMedicalHistory,
+        medicalHistory: data.pastMedicalHistory ? [data.pastMedicalHistory] : [],
+        allergies: data.allergies ? [data.allergies] : [],
+        currentMedications: data.currentMedications ? [data.currentMedications] : [],
+        familyMedicalHistory: data.familyMedicalHistory,
+        pastMedicalHistory: data.pastMedicalHistory,
         
         // Insurance & Emergency
-        insuranceProvider: (data as any).insuranceProvider,
-        insurancePolicyNumber: (data as any).insurancePolicyNumber,
-        emergencyContactName: (data as any).emergencyContactName,
-        emergencyContactNumber: (data as any).emergencyContactNumber,
+        insuranceProvider: data.insuranceProvider,
+        insurancePolicyNumber: data.insurancePolicyNumber,
+        emergencyContactName: data.emergencyContactName,
+        emergencyContactNumber: data.emergencyContactNumber,
         
         // Notification Preferences
         notificationPreferences: {
-          email: (data as any).emailNotifications,
-          sms: (data as any).smsNotifications,
-          push: (data as any).pushNotifications,
+          email: data.emailNotifications,
+          sms: data.smsNotifications,
+          push: data.pushNotifications,
         }
       };
 

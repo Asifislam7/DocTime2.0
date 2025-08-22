@@ -13,20 +13,15 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// SUPER SIMPLE CORS - handle everything
+// CORS middleware - handle cross-origin requests
 app.use((req, res, next) => {
-  console.log(`🔍 ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
-  console.log(`📝 Headers:`, req.headers);
-  
-  // Set CORS headers for ALL requests
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, Accept, X-Requested-With');
   res.header('Access-Control-Allow-Credentials', 'true');
   
-  // Handle preflight
+  // Handle preflight requests
   if (req.method === 'OPTIONS') {
-    console.log('🔄 OPTIONS preflight - sending 200');
     res.status(200).end();
     return;
   }
@@ -35,30 +30,18 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(morgan('combined'));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(morgan('combined')); // Logging
+app.use(express.json({ limit: '10mb' })); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Parse URL-encoded bodies
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  console.log('🏥 Health check endpoint hit');
-  try {
-    res.status(200).json({
-      success: true,
-      message: 'DocTime Backend is running',
-      timestamp: new Date().toISOString(),
-      environment: process.env['NODE_ENV'] || 'development'
-    });
-  } catch (error) {
-    console.error('❌ Error in health endpoint:', error);
-    res.status(500).json({ error: 'Health check failed' });
-  }
-});
-
-// Simple test endpoint
-app.get('/test', (req, res) => {
-  console.log('🧪 Test endpoint hit');
-  res.status(200).send('Backend is working!');
+  res.status(200).json({
+    success: true,
+    message: 'DocTime Backend is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env['NODE_ENV'] || 'development'
+  });
 });
 
 // API routes
@@ -84,8 +67,7 @@ app.listen(PORT, () => {
   console.log(`🚀 DocTime Backend running on port ${PORT}`);
   console.log(`📊 Environment: ${NODE_ENV}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-  console.log(`🌐 CORS: Explicit headers for localhost:3000`);
-  console.log(`🔍 Debug mode: All requests will be logged`);
+  console.log(`🌐 CORS enabled for: http://localhost:3000`);
 });
 
 // Graceful shutdown
