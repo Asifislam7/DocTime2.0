@@ -8,9 +8,12 @@ import {
   SignedOut,
   SignInButton,
   SignUpButton,
+  useUser,
 } from "@clerk/nextjs";
 
 export default function Header() {
+  const { user } = useUser();
+
   return (
     <header className="border-b bg-white px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-6">
       <div className="container flex h-16 items-center justify-between py-4">
@@ -44,7 +47,12 @@ export default function Header() {
         
         <div className="flex items-center gap-4">
           <SignedIn>
-            <UserButton />
+            <div className="flex items-center gap-3">
+              <span className="text-[#0F172B] font-medium">
+                Welcome, {user?.firstName || user?.fullName || 'User'}
+              </span>
+              <UserButton />
+            </div>
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">

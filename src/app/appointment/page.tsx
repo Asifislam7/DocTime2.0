@@ -6,6 +6,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Listbox } from "@headlessui/react";
 import { useToast } from "@/components/ui/toast";
+import jsPDF from "jspdf";
+import { useUser, SignIn } from "@clerk/nextjs";
 
 // Dummy doctors list for demo
 const Doctors = [
@@ -50,12 +52,13 @@ type FormData = {
 };
 
 export default function AppointmentPage() {
+  const { user, isLoaded } = useUser();
   const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm<FormData>({
     defaultValues: {
       // Personal Information
-      name: "",
-      email: "",
-      phoneNumber: "",
+      name: user?.fullName || "",
+      email: user?.primaryEmailAddress?.emailAddress || "",
+      phoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
       dateOfBirth: new Date(),
       gender: "",
       address: "",
@@ -97,23 +100,133 @@ export default function AppointmentPage() {
   });
 
   const [selectedDoctor, setSelectedDoctor] = useState(Doctors[0]);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [appointmentData, setAppointmentData] = useState<FormData | null>(null);
   const { addToast } = useToast();
+
+  // Function to generate and download PDF receipt
+  const generateReceipt = (data: FormData) => {
+    const doc = new jsPDF();
+    
+    // Add logo/header
+    doc.setFontSize(24);
+    doc.setTextColor(6, 163, 218); // #06A3DA
+    doc.text("DocTime", 105, 20, { align: "center" });
+    
+    doc.setFontSize(16);
+    doc.setTextColor(15, 23, 43); // #0F172B
+    doc.text("Appointment Receipt", 105, 35, { align: "center" });
+    
+    // Add line separator
+    doc.setDrawColor(6, 163, 218);
+    doc.setLineWidth(0.5);
+    doc.line(20, 40, 190, 40);
+    
+    // Patient Information Section
+    doc.setFontSize(14);
+    doc.setTextColor(15, 23, 43);
+    doc.setFont("", "bold");
+    doc.text("Patient Information", 20, 55);
+    doc.setFont("", "normal");
+    
+    doc.setFontSize(10);
+    doc.text(`Name: ${String(data.name || 'N/A')}`, 20, 65);
+    doc.text(`Email: ${String(data.email || 'N/A')}`, 20, 72);
+    doc.text(`Phone: ${String(data.phoneNumber || 'N/A')}`, 20, 79);
+    doc.text(`Date of Birth: ${String(data.dateOfBirth?.toLocaleDateString() || 'N/A')}`, 20, 86);
+    doc.text(`Gender: ${String(data.gender || 'N/A')}`, 20, 93);
+    if (data.address) {
+      doc.text(`Address: ${String(data.address)}`, 20, 100);
+    }
+    
+    // Doctor Information Section
+    doc.setFontSize(14);
+    doc.setFont("", "bold");
+    doc.text("Doctor Information", 20, 115);
+    doc.setFont("", "normal");
+    
+    doc.setFontSize(10);
+    doc.text(`Doctor: ${String(data.primaryPhysician || 'N/A')}`, 20, 125);
+    
+    // Appointment Details Section
+    doc.setFontSize(14);
+    doc.setFont("", "bold");
+    doc.text("Appointment Details", 20, 140);
+    doc.setFont("", "normal");
+    
+    doc.setFontSize(10);
+    doc.text(`Date & Time: ${String(data.schedule?.toLocaleString() || 'N/A')}`, 20, 150);
+    doc.text(`Reason: ${String(data.reason || 'N/A')}`, 20, 157);
+    if (data.note) {
+      doc.text(`Notes: ${String(data.note)}`, 20, 164);
+    }
+    
+    // Medical Information Section
+    if (data.allergies || data.currentMedications || data.pastMedicalHistory) {
+      doc.setFontSize(14);
+      doc.setFont("", "bold");
+      doc.text("Medical Information", 20, 179);
+      doc.setFont("", "normal");
+      
+      doc.setFontSize(10);
+      let yPos = 189;
+      if (data.allergies) {
+        doc.text(`Allergies: ${String(data.allergies)}`, 20, yPos);
+        yPos += 7;
+      }
+      if (data.currentMedications) {
+        doc.text(`Current Medications: ${String(data.currentMedications)}`, 20, yPos);
+        yPos += 7;
+      }
+      if (data.pastMedicalHistory) {
+        doc.text(`Past Medical History: ${String(data.pastMedicalHistory)}`, 20, yPos);
+        yPos += 7;
+      }
+    }
+    
+    // Insurance Information Section
+    if (data.insuranceProvider || data.insurancePolicyNumber) {
+      doc.setFontSize(14);
+      doc.setFont(undefined, "bold");
+      doc.text("Insurance Information", 20, 220);
+      doc.setFont(undefined, "normal");
+      
+      doc.setFontSize(10);
+      if (data.insuranceProvider) {
+        doc.text(`Provider: ${String(data.insuranceProvider)}`, 20, 230);
+      }
+      if (data.insurancePolicyNumber) {
+        doc.text(`Policy Number: ${String(data.insurancePolicyNumber)}`, 20, 237);
+      }
+    }
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(128, 128, 128);
+    doc.text("Generated on: " + new Date().toLocaleString(), 20, 270);
+    doc.text("DocTime - Your Health, Our Priority", 105, 270, { align: "center" });
+    
+    // Save the PDF
+    const fileName = `appointment_receipt_${(data.name || 'patient').replace(/\s+/g, '_')}_${data.schedule?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(fileName);
+  };
 
   const onSubmit = async (data: FormData) => {
     try {
       console.log("Form data:", data);
+      console.log("Starting form submission...");
       
       // Show loading toast
       addToast({
         type: 'info',
         title: 'Submitting Appointment',
         message: 'Please wait while we process your request...',
-        duration: 0, // Don't auto-remove
+        duration: 3000, // Show for 3 seconds
       });
       
       // Prepare user data for backend
       const userData = {
-        clerkUserId: `temp_${Date.now()}`, // Temporary ID for now
+        clerkUserId: user?.id || `temp_${Date.now()}`, // Use Clerk user ID
         email: data.email,
         name: data.name,
         role: 'patient', // Default role for appointment booking
@@ -143,6 +256,8 @@ export default function AppointmentPage() {
         }
       };
 
+      console.log("Sending data to backend:", userData);
+
       // Send to backend
       const response = await fetch('http://localhost:3001/api/v1/users', {
         method: 'POST',
@@ -159,6 +274,13 @@ export default function AppointmentPage() {
       const result = await response.json();
       console.log('Backend response:', result);
       
+      // Store appointment data and show receipt BEFORE showing success toast
+      console.log("Setting appointment data and showing receipt...");
+      setAppointmentData(data);
+      setShowReceipt(true);
+      
+      console.log("Receipt state set:", { showReceipt: true, appointmentData: data });
+      
       // Show success toast with appointment details
       addToast({
         type: 'success',
@@ -174,8 +296,8 @@ export default function AppointmentPage() {
         }
       });
       
-      // Reset form after successful submission
-      reset();
+      // Don't reset form immediately - let user see the receipt first
+      // reset();
       
     } catch (error) {
       console.error("Error submitting appointment:", error);
@@ -197,9 +319,61 @@ export default function AppointmentPage() {
     }
   };
 
+  // Show loading state while Clerk loads
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen w-full bg-[#0F172B] flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show sign-in page if user is not authenticated
+  if (!user) {
+    return (
+      <div className="min-h-screen w-full bg-[#0F172B] flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+          <h2 className="text-2xl font-bold text-[#0F172B] mb-4 text-center">Sign In Required</h2>
+          <p className="text-[#6B7280] mb-6 text-center">
+            Please sign in to book an appointment.
+          </p>
+          <SignIn />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#0F172B] py-12 px-4">
       <div className="w-full max-w-6xl mx-auto">
+        {/* Receipt Download Section - Shows after successful submission */}
+        {showReceipt && appointmentData && (
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl shadow-2xl p-6 mb-8 border border-green-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-green-800">Appointment Confirmed!</h3>
+                  <p className="text-green-600">Your appointment has been scheduled successfully.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => generateReceipt(appointmentData)}
+                className="px-6 py-3 bg-gradient-to-r from-[#06A3DA] to-[#0F172B] text-white font-semibold rounded-lg hover:scale-105 transition-all duration-200 shadow-lg flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Receipt
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="text-center mb-12">
           <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">
             Book an Appointment

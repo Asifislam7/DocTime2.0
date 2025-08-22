@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ToastProvider } from "@/components/ui/toast";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ToastProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </ToastProvider>
+        <ClerkProvider>
+          <ToastProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </ToastProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
