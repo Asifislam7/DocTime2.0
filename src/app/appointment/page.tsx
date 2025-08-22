@@ -70,21 +70,65 @@ export default function AppointmentPage() {
 
   const onSubmit = async (data: unknown) => {
     try {
-      // TODO: Send data to backend
       console.log("Form data:", data);
       
-      // Here you would typically:
-      // 1. Create user profile in backend
-      // 2. Create appointment record
-      // 3. Send confirmation email
+      // Prepare user data for backend
+      const userData = {
+        clerkUserId: `temp_${Date.now()}`, // Temporary ID for now
+        email: (data as any).email,
+        name: (data as any).name,
+        role: 'patient', // Default role for appointment booking
+        phoneNumber: (data as any).phoneNumber,
+        dateOfBirth: (data as any).dateOfBirth,
+        gender: (data as any).gender,
+        address: (data as any).address,
+        
+        // Medical Information
+        medicalHistory: (data as any).pastMedicalHistory ? [(data as any).pastMedicalHistory] : [],
+        allergies: (data as any).allergies ? [(data as any).allergies] : [],
+        currentMedications: (data as any).currentMedications ? [(data as any).currentMedications] : [],
+        familyMedicalHistory: (data as any).familyMedicalHistory,
+        pastMedicalHistory: (data as any).pastMedicalHistory,
+        
+        // Insurance & Emergency
+        insuranceProvider: (data as any).insuranceProvider,
+        insurancePolicyNumber: (data as any).insurancePolicyNumber,
+        emergencyContactName: (data as any).emergencyContactName,
+        emergencyContactNumber: (data as any).emergencyContactNumber,
+        
+        // Notification Preferences
+        notificationPreferences: {
+          email: (data as any).emailNotifications,
+          sms: (data as any).smsNotifications,
+          push: (data as any).pushNotifications,
+        }
+      };
+
+      // Send to backend
+      const response = await fetch('http://localhost:3001/api/v1/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Backend response:', result);
       
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
         reset();
-      }, 2000);
+      }, 3000);
+      
     } catch (error) {
       console.error("Error submitting appointment:", error);
+      alert(`Error: ${error instanceof Error ? error.message : 'Failed to submit appointment'}`);
     }
   };
 

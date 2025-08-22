@@ -251,7 +251,7 @@ const userSchema = new Schema({
   // Performance & Ratings (for doctors)
   rating: {
     type: Number,
-    min: [1, 'Rating must be at least 1'],
+    min: [0, 'Rating must be at least 0'], // Changed from 1 to 0
     max: [5, 'Rating cannot exceed 5'],
     default: 0
   },

@@ -52,12 +52,15 @@ export class UserService {
    */
   static async createUser(userData: CreateUserInput): Promise<UserDocument> {
     try {
+      console.log('🔧 UserService.createUser called with:', JSON.stringify(userData, null, 2));
+      
       // Check if user already exists with Clerk ID
       const existingUser = await User.findOne({ 
         clerkUserId: userData.clerkUserId 
       }).exec();
       
       if (existingUser) {
+        console.log('❌ User already exists with Clerk ID:', userData.clerkUserId);
         throw new ApiError('User already exists with this Clerk ID', 409);
       }
       
@@ -67,8 +70,11 @@ export class UserService {
       }).exec();
       
       if (existingEmail) {
+        console.log('❌ Email already exists:', userData.email);
         throw new ApiError('Email address is already registered', 409);
       }
+      
+      console.log('✅ No conflicts found, creating new user...');
       
       // Create user with default status
       const user = new User({
@@ -77,11 +83,16 @@ export class UserService {
         status: UserStatus.PENDING_VERIFICATION
       });
       
+      console.log('📝 User model created, saving to database...');
+      
       // Validate and save user
       const savedUser = await user.save();
       
+      console.log('✅ User saved successfully with ID:', savedUser._id);
+      
       return savedUser as UserDocument;
     } catch (error) {
+      console.log('❌ Error in UserService.createUser:', error);
       if (error instanceof ApiError) {
         throw error;
       }
