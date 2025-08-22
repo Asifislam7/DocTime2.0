@@ -2,4 +2,4 @@
 1: Chatbot \
 2: Medical Prescription transcriber \
 3: Audio converter \
-4: AI appointment schedular \
+4: AI appointment schedular 
