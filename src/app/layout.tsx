@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -31,7 +33,11 @@ export default function RootLayout({
             fontWeight: "bold",
           }}
         >
-          <main className="flex-grow">{children}</main>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
         </body>
       </html>
     </ClerkProvider>

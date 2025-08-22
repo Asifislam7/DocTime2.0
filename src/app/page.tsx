@@ -2,65 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Clock, Users } from "lucide-react";
-import {
-  SignedIn,
-  UserButton,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-} from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="border-b">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/assets/icons/logo-full.png"
-              height={1000}
-              width={1000}
-              alt="patient"
-              className=" h-10 w-fit"
-            />
-            <span className="text-xl font-bold">DocTime</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium">
-              Home
-            </Link>
-            <Link href="#features" className="text-sm font-medium">
-              Features
-            </Link>
-            <Link href="#about" className="text-sm font-medium">
-              About
-            </Link>
-            <Link href="#contact" className="text-sm font-medium">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="px-4 py-2 bg-green-400 text-white rounded">
-                  Sign In
-                </button>
-              </SignInButton>
-            </SignedOut>
-            <SignedOut>
-              <SignUpButton mode="modal">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">
+    <div className="px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
+      <main>
         <section className="py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
@@ -75,7 +21,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/register">
+                  <Link href="#book-appointment" className="text-xl font-medium text-[#0F172B] hover:text-[#06A3DA] transition-colors hover:bg-transparent">
                     <Button className="gap-1">
                       Get Started
                       <ArrowRight className="h-4 w-4" />
@@ -234,23 +180,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/assets/icons/logo-full.png"
-              height={1000}
-              width={1000}
-              alt="patient"
-              className=" h-10 w-fit"
-            />
-            <span className="text-lg font-bold">DocTime</span>
-          </div>
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © {new Date().getFullYear()} DocTime. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
