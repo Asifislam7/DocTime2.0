@@ -43,9 +43,21 @@ app.get('/health', (_req, res) => {
   });
 });
 
-// API Routes (we'll add these next)
+// Import routes
+import userRoutes from './routes/user.routes';
+
+// API Routes
+app.use('/api/v1/users', userRoutes);
+
+// Default API route
 app.use('/api/v1', (_req, res) => {
-  res.json({ message: 'API routes coming soon!' });
+  res.json({ 
+    message: 'DocTime API v1 is running!',
+    endpoints: {
+      users: '/api/v1/users',
+      health: '/health'
+    }
+  });
 });
 
 // Error handling middleware (we'll add these later)

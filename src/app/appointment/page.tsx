@@ -15,36 +15,53 @@ const Doctors = [
   { name: "Dr. Emma Davis", image: "/assets/images/dr-cruz.png" },
 ];
 
-const GenderOptions = ["Male", "Female", "Other", "Prefer not to say"];
+const GenderOptions = ["male", "female", "other", "prefer_not_to_say"];
 const IdentificationTypes = ["Passport", "Driver's License", "National ID", "Social Security Card", "Other"];
 
 export default function AppointmentPage() {
   const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm({
     defaultValues: {
+      // Personal Information
       name: "",
       email: "",
-      phone: "",
-      birthDate: new Date(),
+      phoneNumber: "",
+      dateOfBirth: new Date(),
       gender: "",
       address: "",
-      occupation: "",
+      
+      // Emergency Contact
       emergencyContactName: "",
       emergencyContactNumber: "",
+      
+      // Insurance
+      insuranceProvider: "",
+      insurancePolicyNumber: "",
+      
+      // Medical Information
+      allergies: "",
+      currentMedications: "",
+      familyMedicalHistory: "",
+      pastMedicalHistory: "",
+      
+      // Appointment Details
       primaryPhysician: "",
       schedule: new Date(),
       reason: "",
       note: "",
-      insuranceProvider: "",
-      insurancePolicyNumber: "",
-      allergies: "",
-      currentMedication: "",
-      familyMedicalHistory: "",
-      pastMedicalHistory: "",
+      
+      // Identification
       identificationType: "",
       identificationNumber: "",
+      
+      // Consent
       treatmentConsent: false,
       disclosureConsent: false,
       privacyConsent: false,
+      
+      // Notification Preferences
+      emailNotifications: true,
+      smsNotifications: false,
+      pushNotifications: true,
     },
   });
 
@@ -52,13 +69,23 @@ export default function AppointmentPage() {
   const [selectedDoctor, setSelectedDoctor] = useState(Doctors[0]);
 
   const onSubmit = async (data: unknown) => {
-    // TODO: Send data to backend
-    console.log("Form data:", data);
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      reset();
-    }, 2000);
+    try {
+      // TODO: Send data to backend
+      console.log("Form data:", data);
+      
+      // Here you would typically:
+      // 1. Create user profile in backend
+      // 2. Create appointment record
+      // 3. Send confirmation email
+      
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        reset();
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting appointment:", error);
+    }
   };
 
   return (
@@ -68,9 +95,9 @@ export default function AppointmentPage() {
           <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">
             Book an Appointment
           </h2>
-                      <p className="text-[#B0B8C1] text-xl max-w-2xl mx-auto">
-              Fill in your details and we&apos;ll get you scheduled with our healthcare professionals.
-            </p>
+          <p className="text-[#B0B8C1] text-xl max-w-2xl mx-auto">
+            Fill in your details and we&apos;ll get you scheduled with our healthcare professionals.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -108,7 +135,7 @@ export default function AppointmentPage() {
               <div>
                 <label className="block mb-2 font-semibold text-[#0F172B]">Phone Number *</label>
                 <input
-                  {...register("phone", { required: true })}
+                  {...register("phoneNumber", { required: true })}
                   placeholder="(555) 123-4567"
                   className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
                   required
@@ -120,7 +147,7 @@ export default function AppointmentPage() {
                 <label className="block mb-2 font-semibold text-[#0F172B]">Date of Birth *</label>
                 <Controller
                   control={control}
-                  name="birthDate"
+                  name="dateOfBirth"
                   render={({ field }) => (
                     <DatePicker
                       className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
@@ -144,7 +171,12 @@ export default function AppointmentPage() {
                 >
                   <option value="">Select gender</option>
                   {GenderOptions.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option} value={option}>
+                      {option === "male" ? "Male" : 
+                       option === "female" ? "Female" : 
+                       option === "other" ? "Other" : 
+                       "Prefer not to say"}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -158,17 +190,16 @@ export default function AppointmentPage() {
                   className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
                 />
               </div>
+            </div>
+          </div>
 
-              {/* Occupation */}
-              <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Occupation</label>
-                <input
-                  {...register("occupation")}
-                  placeholder="Software Engineer"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
-                />
-              </div>
-
+          {/* Emergency Contact Section */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
+            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+              Emergency Contact Information
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Emergency Contact Name */}
               <div>
                 <label className="block mb-2 font-semibold text-[#0F172B]">Emergency Contact Name</label>
@@ -185,6 +216,35 @@ export default function AppointmentPage() {
                 <input
                   {...register("emergencyContactNumber")}
                   placeholder="(555) 123-4567"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Insurance Section */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
+            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+              Insurance Information
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Insurance Provider */}
+              <div>
+                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Provider</label>
+                <input
+                  {...register("insuranceProvider")}
+                  placeholder="BlueCross BlueShield"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                />
+              </div>
+
+              {/* Insurance Policy Number */}
+              <div>
+                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Policy Number</label>
+                <input
+                  {...register("insurancePolicyNumber")}
+                  placeholder="ABC123456789"
                   className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
                 />
               </div>
@@ -253,26 +313,6 @@ export default function AppointmentPage() {
                   )}
                 />
               </div>
-
-              {/* Insurance Provider */}
-              <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Provider</label>
-                <input
-                  {...register("insuranceProvider")}
-                  placeholder="BlueCross BlueShield"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
-                />
-              </div>
-
-              {/* Insurance Policy Number */}
-              <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Policy Number</label>
-                <input
-                  {...register("insurancePolicyNumber")}
-                  placeholder="ABC123456789"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
-                />
-              </div>
             </div>
 
             {/* Full-width fields */}
@@ -304,7 +344,7 @@ export default function AppointmentPage() {
               <div>
                 <label className="block mb-2 font-semibold text-[#0F172B]">Current Medications</label>
                 <textarea
-                  {...register("currentMedication")}
+                  {...register("currentMedications")}
                   placeholder="Ibuprofen 200mg, Levothyroxine 50mcg"
                   className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
                   rows={3}
@@ -342,6 +382,51 @@ export default function AppointmentPage() {
                   className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
+              </div>
+            </div>
+          </div>
+
+          {/* Notification Preferences Section */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
+            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+              Notification Preferences
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex items-center gap-3">
+                <input
+                  {...register("emailNotifications")}
+                  type="checkbox"
+                  id="emailNotifications"
+                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                />
+                <label htmlFor="emailNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                  Email Notifications
+                </label>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  {...register("smsNotifications")}
+                  type="checkbox"
+                  id="smsNotifications"
+                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                />
+                <label htmlFor="smsNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                  SMS Notifications
+                </label>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  {...register("pushNotifications")}
+                  type="checkbox"
+                  id="pushNotifications"
+                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                />
+                <label htmlFor="pushNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                  Push Notifications
+                </label>
               </div>
             </div>
           </div>
