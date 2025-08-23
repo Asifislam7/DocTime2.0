@@ -51,7 +51,7 @@ export default function Header() {
           <Link href="/#features" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
             Features
           </Link>
-          <Link href="/#about" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
+          <Link href="/about" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
             About
           </Link>
           <Link href="/#contact" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
