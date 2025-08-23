@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import userRoutes from './routes/user.routes';
 import appointmentRoutes from './routes/appointment.routes';
+import chatbotRoutes from './routes/chatbot.routes';
 
 // Load environment variables
 dotenv.config();
@@ -48,6 +49,7 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/appointments', appointmentRoutes);
+app.use('/api/v1/chatbot', chatbotRoutes);
 
 // Default API response
 app.get('/api/v1', (req, res) => {

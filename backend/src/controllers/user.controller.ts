@@ -107,6 +107,33 @@ export class UserController {
       next(error);
     }
   }
+
+  /**
+   * Get user by email
+   * GET /api/v1/users/email/:email
+   */
+  static async getUserByEmail(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { email } = req.params;
+      
+      if (!email) {
+        throw new ApiError('Email is required', 400);
+      }
+      
+      const user = await UserService.getUserByEmail(email);
+      
+      if (!user) {
+        throw new ApiError('User not found', 404);
+      }
+      
+      res.status(200).json({
+        success: true,
+        data: user
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   
   /**
    * Update user profile

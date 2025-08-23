@@ -99,32 +99,32 @@ export class UserService {
   /**
    * Get user by Clerk ID
    * 
-   * @param clerkUserId - Clerk authentication ID
-   * @returns Promise<UserDocument | null> - User document or null
+   * @param clerkUserId - Clerk user ID
+   * @returns Promise<UserDocument | null> - User document or null if not found
+   * @throws ApiError - If retrieval fails
    */
   static async getUserByClerkId(clerkUserId: string): Promise<UserDocument | null> {
     try {
       const user = await User.findOne({ clerkUserId }).exec();
       return user as UserDocument | null;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      throw new ApiError('Failed to fetch user', 500);
+      throw new ApiError('Failed to retrieve user', 500);
     }
   }
-  
+
   /**
-   * Get user by email address
+   * Get user by email
    * 
-   * @param email - User's email address
-   * @returns Promise<UserDocument | null> - User document or null
+   * @param email - User email address
+   * @returns Promise<UserDocument | null> - User document or null if not found
+   * @throws ApiError - If retrieval fails
    */
   static async getUserByEmail(email: string): Promise<UserDocument | null> {
     try {
       const user = await User.findOne({ email: email.toLowerCase() }).exec();
       return user as UserDocument | null;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      throw new ApiError('Failed to fetch user', 500);
+      throw new ApiError('Failed to retrieve user', 500);
     }
   }
   

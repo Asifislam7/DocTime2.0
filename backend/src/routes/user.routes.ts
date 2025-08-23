@@ -19,17 +19,17 @@ const router = Router();
 // User creation
 router.post('/', UserController.createUser);
 
-// Get user statistics (Admin only)
-// router.get('/stats', UserController.getUserStats);
-
 // Get all users with pagination and filtering
 router.get('/', UserController.getUsers);
 
-// Get user by MongoDB ID
-router.get('/:userId', UserController.getUserById);
+// Get user by email (must come before /:userId to avoid conflicts)
+router.get('/email/:email', UserController.getUserByEmail);
 
 // Get user by Clerk ID
 router.get('/clerk/:clerkUserId', UserController.getUserByClerkId);
+
+// Get user by MongoDB ID (must come last to avoid catching other routes)
+router.get('/:userId', UserController.getUserById);
 
 // Update user profile
 router.put('/clerk/:clerkUserId', UserController.updateUser);
