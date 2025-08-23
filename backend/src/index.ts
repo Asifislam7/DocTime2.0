@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import userRoutes from './routes/user.routes';
+import appointmentRoutes from './routes/appointment.routes';
 
 // Load environment variables
 dotenv.config();
@@ -46,6 +47,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/appointments', appointmentRoutes);
 
 // Default API response
 app.get('/api/v1', (req, res) => {
@@ -54,6 +56,7 @@ app.get('/api/v1', (req, res) => {
     message: 'DocTime API v1',
     endpoints: {
       users: '/api/v1/users',
+      appointments: '/api/v1/appointments',
       health: '/health'
     }
   });

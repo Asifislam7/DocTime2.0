@@ -33,16 +33,16 @@ type FormData = {
   emergencyContactNumber: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
-  allergies: string;
-  currentMedications: string;
-  familyMedicalHistory: string;
-  pastMedicalHistory: string;
+  allergies?: string;
+  currentMedications?: string;
+  familyMedicalHistory?: string;
+  pastMedicalHistory?: string;
   primaryPhysician: string;
   schedule: Date;
   reason: string;
-  note: string;
-  identificationType: string;
-  identificationNumber: string;
+  note?: string;
+  identificationType?: string;
+  identificationNumber?: string;
   treatmentConsent: boolean;
   disclosureConsent: boolean;
   privacyConsent: boolean;
@@ -53,7 +53,7 @@ type FormData = {
 
 export default function AppointmentPage() {
   const { user, isLoaded } = useUser();
-  const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm<FormData>({
+  const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<FormData>({
     defaultValues: {
       // Personal Information
       name: user?.fullName || "",
@@ -224,21 +224,19 @@ export default function AppointmentPage() {
         duration: 3000, // Show for 3 seconds
       });
       
-      // Prepare user data for backend
-      const userData = {
-        clerkUserId: user?.id || `temp_${Date.now()}`, // Use Clerk user ID
+      // Prepare appointment data for backend
+      const appointmentData = {
+        clerkUserId: user?.id || `temp_${Date.now()}`,
         email: data.email,
         name: data.name,
-        role: 'patient', // Default role for appointment booking
         phoneNumber: data.phoneNumber,
         dateOfBirth: data.dateOfBirth,
         gender: data.gender,
         address: data.address,
         
         // Medical Information
-        medicalHistory: data.pastMedicalHistory ? [data.pastMedicalHistory] : [],
-        allergies: data.allergies ? [data.allergies] : [],
-        currentMedications: data.currentMedications ? [data.currentMedications] : [],
+        allergies: data.allergies || "",
+        currentMedications: data.currentMedications || "",
         familyMedicalHistory: data.familyMedicalHistory,
         pastMedicalHistory: data.pastMedicalHistory,
         
@@ -248,23 +246,34 @@ export default function AppointmentPage() {
         emergencyContactName: data.emergencyContactName,
         emergencyContactNumber: data.emergencyContactNumber,
         
-        // Notification Preferences
-        notificationPreferences: {
-          email: data.emailNotifications,
-          sms: data.smsNotifications,
-          push: data.pushNotifications,
-        }
+        // Appointment Details
+        primaryPhysician: data.primaryPhysician,
+        schedule: data.schedule,
+        reason: data.reason,
+        note: data.note,
+        
+        // Consent & Preferences
+        treatmentConsent: data.treatmentConsent,
+        disclosureConsent: data.disclosureConsent,
+        privacyConsent: data.privacyConsent,
+        emailNotifications: data.emailNotifications,
+        smsNotifications: data.smsNotifications,
+        pushNotifications: data.pushNotifications,
+        
+        // Identification
+        identificationType: data.identificationType,
+        identificationNumber: data.identificationNumber
       };
 
-      console.log("Sending data to backend:", userData);
+      console.log("Sending appointment data to backend:", appointmentData);
 
-      // Send to backend
-      const response = await fetch('http://localhost:3001/api/v1/users', {
+      // Send to appointment API instead of user API
+      const response = await fetch('http://localhost:3001/api/v1/appointments/from-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(appointmentData),
       });
 
       if (!response.ok) {

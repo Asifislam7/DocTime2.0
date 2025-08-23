@@ -251,7 +251,7 @@ const userSchema = new Schema({
   // Performance & Ratings (for doctors)
   rating: {
     type: Number,
-    min: [0, 'Rating must be at least 0'], // Changed from 1 to 0
+    min: [0, 'Rating must be at least 0'],
     max: [5, 'Rating cannot exceed 5'],
     default: 0
   },
@@ -284,7 +284,7 @@ const userSchema = new Schema({
     ref: 'SystemLog'
   }],
   
-  // Relationships
+  // Relationships - Only references, not actual data
   appointments: [{
     type: Schema.Types.ObjectId,
     ref: 'Appointment'
@@ -329,13 +329,13 @@ userSchema.virtual('age').get(function() {
 });
 
 // Instance methods
-userSchema.methods['updateLastLogin'] = async function() {
-  (this as any).lastLoginAt = new Date();
-  await (this as any).save();
+userSchema.methods.updateLastLogin = async function() {
+  this.lastLoginAt = new Date();
+  await this.save();
 };
 
-userSchema.methods['isActive'] = function() {
-  return (this as any).status === UserStatus.ACTIVE;
+userSchema.methods.isActive = function() {
+  return this.status === UserStatus.ACTIVE;
 };
 
 // Middleware for data consistency
