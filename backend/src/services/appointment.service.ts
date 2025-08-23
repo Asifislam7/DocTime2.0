@@ -186,4 +186,75 @@ export class AppointmentService {
       throw new Error(`Failed to fetch appointment: ${error}`);
     }
   }
+
+  /**
+   * Reschedule appointment
+   */
+  static async rescheduleAppointment(
+    appointmentId: string, 
+    newDate: Date, 
+    newTime: string
+  ): Promise<IAppointment | null> {
+    try {
+      // First check if the appointment exists and can be rescheduled
+      const appointment = await Appointment.findById(appointmentId);
+      
+      if (!appointment) {
+        throw new Error('Appointment not found');
+      }
+
+      // Check if appointment can be rescheduled (not completed or already cancelled)
+      if (appointment.status === 'completed' || appointment.status === 'cancelled') {
+        throw new Error('Cannot reschedule completed or cancelled appointments');
+      }
+
+      // Update the appointment with new date and time
+      const updatedAppointment = await Appointment.findByIdAndUpdate(
+        appointmentId,
+        { 
+          appointmentDate: newDate,
+          appointmentTime: newTime,
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      return updatedAppointment;
+    } catch (error) {
+      throw new Error(`Failed to reschedule appointment: ${error}`);
+    }
+  }
+
+  /**
+   * Cancel appointment
+   */
+  static async cancelAppointment(appointmentId: string): Promise<IAppointment | null> {
+    try {
+      // First check if the appointment exists and can be cancelled
+      const appointment = await Appointment.findById(appointmentId);
+      
+      if (!appointment) {
+        throw new Error('Appointment not found');
+      }
+
+      // Check if appointment can be cancelled (not already completed or cancelled)
+      if (appointment.status === 'completed' || appointment.status === 'cancelled') {
+        throw new Error('Cannot cancel completed or already cancelled appointments');
+      }
+
+      // Update the appointment status to cancelled
+      const cancelledAppointment = await Appointment.findByIdAndUpdate(
+        appointmentId,
+        { 
+          status: 'cancelled',
+          updatedAt: new Date()
+        },
+        { new: true }
+      );
+
+      return cancelledAppointment;
+    } catch (error) {
+      throw new Error(`Failed to cancel appointment: ${error}`);
+    }
+  }
 }

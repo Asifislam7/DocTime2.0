@@ -18,6 +18,12 @@ router.post('/from-form', AppointmentController.createAppointmentFromForm);
 // Update appointment status
 router.put('/:appointmentId/status', AppointmentController.updateAppointmentStatus);
 
+// Reschedule appointment
+router.patch('/:appointmentId/reschedule', AppointmentController.rescheduleAppointment);
+
+// Cancel appointment
+router.patch('/:appointmentId/cancel', AppointmentController.cancelAppointment);
+
 // Delete appointment
 router.delete('/:appointmentId', AppointmentController.deleteAppointment);
 

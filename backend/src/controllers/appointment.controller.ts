@@ -283,4 +283,98 @@ export class AppointmentController {
       });
     }
   }
+
+  /**
+   * Reschedule appointment
+   */
+  static async rescheduleAppointment(req: Request, res: Response) {
+    try {
+      const { appointmentId } = req.params;
+      const { appointmentDate, appointmentTime } = req.body;
+      
+      if (!appointmentId || !appointmentDate || !appointmentTime) {
+        return res.status(400).json({
+          success: false,
+          message: 'Appointment ID, date, and time are required'
+        });
+      }
+
+      // Validate date format
+      const newDate = new Date(appointmentDate);
+      if (isNaN(newDate.getTime())) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid date format'
+        });
+      }
+
+      // Check if the new date is in the past
+      if (newDate < new Date()) {
+        return res.status(400).json({
+          success: false,
+          message: 'Cannot schedule appointment in the past'
+        });
+      }
+
+      const appointment = await AppointmentService.rescheduleAppointment(appointmentId, newDate, appointmentTime);
+      
+      if (!appointment) {
+        return res.status(404).json({
+          success: false,
+          message: 'Appointment not found'
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: appointment,
+        message: 'Appointment rescheduled successfully'
+      });
+    } catch (error) {
+      console.error('Error rescheduling appointment:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to reschedule appointment',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }
+
+  /**
+   * Cancel appointment
+   */
+  static async cancelAppointment(req: Request, res: Response) {
+    try {
+      const { appointmentId } = req.params;
+      
+      if (!appointmentId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Appointment ID parameter is required'
+        });
+      }
+
+      const appointment = await AppointmentService.cancelAppointment(appointmentId);
+      
+      if (!appointment) {
+        return res.status(404).json({
+          success: false,
+          message: 'Appointment not found'
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: appointment,
+        message: 'Appointment cancelled successfully'
+      });
+    } catch (error) {
+      console.error('Error cancelling appointment:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to cancel appointment',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }
 }
