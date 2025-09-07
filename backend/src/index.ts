@@ -5,6 +5,7 @@ import { connectDB } from './config/database';
 import userRoutes from './routes/user.routes';
 import appointmentRoutes from './routes/appointment.routes';
 import chatbotRoutes from './routes/chatbot.routes';
+import prescriptionRoutes from './routes/prescription.routes';
 
 // Load environment variables
 dotenv.config();
@@ -50,6 +51,7 @@ app.get('/health', (req, res) => {
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/appointments', appointmentRoutes);
 app.use('/api/v1/chatbot', chatbotRoutes);
+app.use('/api/v1/prescriptions', prescriptionRoutes);
 
 // Default API response
 app.get('/api/v1', (req, res) => {
@@ -59,6 +61,7 @@ app.get('/api/v1', (req, res) => {
     endpoints: {
       users: '/api/v1/users',
       appointments: '/api/v1/appointments',
+      prescriptions: '/api/v1/prescriptions',
       health: '/health'
     }
   });

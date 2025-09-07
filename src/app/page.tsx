@@ -93,7 +93,7 @@ export default function Home() {
                   </p>
                 </div>
                 
-                <div className="text-center lg:text-left group cursor-pointer transition-all duration-300 hover:scale-105">
+                <div className="text-center lg:text-left group cursor-pointer transition-all duration-1000 hover:scale-105">
                   <h3 className="text-2xl font-bold text-[#06A3DA] mb-3 transition-all duration-300 group-hover:text-white group-hover:text-3xl group-hover:mb-4">Doctor Dashboard</h3>
                   <p className="text-white/90 text-lg leading-relaxed transition-all duration-300 group-hover:text-white group-hover:text-xl group-hover:leading-relaxed">
                     Doctors can manage their schedule and patient appointments efficiently through our comprehensive dashboard.

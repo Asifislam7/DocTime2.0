@@ -11,7 +11,7 @@ import {
   useUser,
   useClerk,
 } from "@clerk/nextjs";
-import { ChevronDown, User, Calendar, LogOut } from "lucide-react";
+import { ChevronDown, User, Calendar, LogOut, FileText } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 export default function Header() {
@@ -93,6 +93,15 @@ export default function Header() {
                   >
                     <Calendar className="h-4 w-4" />
                     My Appointments
+                  </Link>
+                  
+                  <Link 
+                    href="/my-prescriptions"
+                    onClick={() => setShowUserMenu(false)}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
+                  >
+                    <FileText className="h-4 w-4" />
+                    My Prescriptions
                   </Link>
                   
                   <Link 
