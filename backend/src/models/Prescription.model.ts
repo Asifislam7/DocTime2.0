@@ -8,13 +8,11 @@ const prescriptionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'User ID is required'],
-    index: true
   },
   
   clerkUserId: {
     type: String,
     required: [true, 'Clerk user ID is required'],
-    index: true,
     trim: true
   },
   
@@ -39,7 +37,6 @@ const prescriptionSchema = new Schema({
       values: Object.values(DocumentType),
       message: 'Invalid document type'
     },
-    index: true
   },
   
   fileName: {
@@ -80,7 +77,6 @@ const prescriptionSchema = new Schema({
       message: 'Invalid status'
     },
     default: DocumentStatus.PENDING,
-    index: true
   },
   
   extractedText: {

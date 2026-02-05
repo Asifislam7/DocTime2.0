@@ -16,19 +16,19 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// CORS middleware - handle cross-origin requests
+// CORS middleware - allow frontend origin from env in production
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', FRONTEND_URL);
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, Accept, X-Requested-With');
   res.header('Access-Control-Allow-Credentials', 'true');
-  
-  // Handle preflight requests
+
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
-  
+
   next();
 });
 
@@ -75,7 +75,7 @@ app.listen(PORT, () => {
   console.log(`🚀 DocTime Backend running on port ${PORT}`);
   console.log(`📊 Environment: ${NODE_ENV}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-  console.log(`🌐 CORS enabled for: http://localhost:3000`);
+  console.log(`🌐 CORS enabled for: ${FRONTEND_URL}`);
 });
 
 // Graceful shutdown

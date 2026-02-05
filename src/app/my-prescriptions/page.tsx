@@ -22,6 +22,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
+import { API_BASE } from "@/lib/api";
 
 // Types
 interface Prescription {
@@ -114,7 +115,7 @@ export default function MyPrescriptions() {
         ...(filterStatus && filterStatus !== 'all' && { status: filterStatus })
       });
 
-      const response = await fetch(`http://localhost:3001/api/v1/prescriptions/user/${user.id}?${params}`);
+      const response = await fetch(`${API_BASE}/api/v1/prescriptions/user/${user.id}?${params}`);
       const data = await response.json();
 
       if (data.success) {
@@ -144,7 +145,7 @@ export default function MyPrescriptions() {
     if (!user?.id) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/prescriptions/user/${user.id}/stats`);
+      const response = await fetch(`${API_BASE}/api/v1/prescriptions/user/${user.id}/stats`);
       const data = await response.json();
 
       if (data.success) {
@@ -177,7 +178,7 @@ export default function MyPrescriptions() {
       formData.append('tags', uploadForm.tags);
       formData.append('isPublic', uploadForm.isPublic.toString());
 
-      const response = await fetch('http://localhost:3001/api/v1/prescriptions/upload', {
+      const response = await fetch(`${API_BASE}/api/v1/prescriptions/upload`, {
         method: 'POST',
         body: formData
       });
@@ -225,7 +226,7 @@ export default function MyPrescriptions() {
     if (!user?.id) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/prescriptions/${prescriptionId}/user/${user.id}/download`);
+      const response = await fetch(`${API_BASE}/api/v1/prescriptions/${prescriptionId}/user/${user.id}/download`);
       
       if (response.ok) {
         const blob = await response.blob();
@@ -266,7 +267,7 @@ export default function MyPrescriptions() {
     if (!confirm('Are you sure you want to delete this document?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/prescriptions/${prescriptionId}/user/${user.id}`, {
+      const response = await fetch(`${API_BASE}/api/v1/prescriptions/${prescriptionId}/user/${user.id}`, {
         method: 'DELETE'
       });
 
@@ -308,7 +309,7 @@ export default function MyPrescriptions() {
       setSummaryLoadingId(prescriptionId);
       setExpandedSummaryId(prescriptionId);
       const response = await fetch(
-        `http://localhost:3001/api/v1/prescriptions/${prescriptionId}/user/${user.id}/summary`
+        `${API_BASE}/api/v1/prescriptions/${prescriptionId}/user/${user.id}/summary`
       );
       const data = await response.json();
       if (data.success) {

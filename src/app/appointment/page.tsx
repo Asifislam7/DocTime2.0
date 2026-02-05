@@ -8,6 +8,7 @@ import { Listbox } from "@headlessui/react";
 import { useToast } from "@/components/ui/toast";
 import jsPDF from "jspdf";
 import { useUser, SignIn } from "@clerk/nextjs";
+import { API_BASE } from "@/lib/api";
 
 // Dummy doctors list for demo
 const Doctors = [
@@ -268,7 +269,7 @@ export default function AppointmentPage() {
       console.log("Sending appointment data to backend:", appointmentData);
 
       // Send to appointment API instead of user API
-      const response = await fetch('http://localhost:3001/api/v1/appointments/from-form', {
+      const response = await fetch(`${API_BASE}/api/v1/appointments/from-form`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

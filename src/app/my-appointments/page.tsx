@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Clock, User, Download, AlertCircle, FileText, X, Edit, Trash2 } from "lucide-react";
 import jsPDF from "jspdf";
+import { API_BASE } from "@/lib/api";
 
 interface Appointment {
   _id: string;
@@ -63,7 +64,7 @@ export default function MyAppointmentsPage() {
     try {
       setLoading(true);
       const email = user?.primaryEmailAddress?.emailAddress;
-      const response = await fetch(`http://localhost:3001/api/v1/appointments/email/${encodeURIComponent(email!)}`);
+      const response = await fetch(`${API_BASE}/api/v1/appointments/email/${encodeURIComponent(email!)}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch appointments');
@@ -123,7 +124,7 @@ export default function MyAppointmentsPage() {
 
     try {
       setActionLoading(true);
-      const response = await fetch(`http://localhost:3001/api/v1/appointments/${rescheduleData.appointmentId}/reschedule`, {
+      const response = await fetch(`${API_BASE}/api/v1/appointments/${rescheduleData.appointmentId}/reschedule`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +162,7 @@ export default function MyAppointmentsPage() {
 
     try {
       setActionLoading(true);
-      const response = await fetch(`http://localhost:3001/api/v1/appointments/${selectedAppointment._id}/cancel`, {
+      const response = await fetch(`${API_BASE}/api/v1/appointments/${selectedAppointment._id}/cancel`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

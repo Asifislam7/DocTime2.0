@@ -8,7 +8,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Clerk user ID is required'],
     unique: true,
-    index: true,
+ 
     trim: true
   },
   
@@ -16,7 +16,6 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Email is required'],
     unique: true,
-    index: true,
     lowercase: true,
     trim: true,
     match: [

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
+import { API_BASE } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -93,7 +94,7 @@ How can I assist you today?`,
       const email = user?.primaryEmailAddress?.emailAddress;
       if (!email) return;
 
-      const response = await fetch(`http://localhost:3001/api/v1/users/email/${encodeURIComponent(email)}`);
+      const response = await fetch(`${API_BASE}/api/v1/users/email/${encodeURIComponent(email)}`);
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData.data);
@@ -108,7 +109,7 @@ How can I assist you today?`,
       const email = user?.primaryEmailAddress?.emailAddress;
       if (!email) return;
 
-      const response = await fetch(`http://localhost:3001/api/v1/appointments/email/${encodeURIComponent(email)}`);
+      const response = await fetch(`${API_BASE}/api/v1/appointments/email/${encodeURIComponent(email)}`);
       if (response.ok) {
         const data = await response.json();
         setAppointments(data.data || []);
@@ -158,7 +159,7 @@ How can I assist you today?`,
     const prompt = createPrompt(userInput);
     
     try {
-      const response = await fetch('http://localhost:3001/api/v1/chatbot/generate', {
+      const response = await fetch(`${API_BASE}/api/v1/chatbot/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
