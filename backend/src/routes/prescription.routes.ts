@@ -21,6 +21,9 @@ router.delete('/:prescriptionId/user/:clerkUserId', PrescriptionController.delet
 // Download prescription file
 router.get('/:prescriptionId/user/:clerkUserId/download', PrescriptionController.downloadPrescription);
 
+// Get AI summary for prescription
+router.get('/:prescriptionId/user/:clerkUserId/summary', PrescriptionController.getPrescriptionSummary);
+
 // Get prescription statistics
 router.get('/user/:clerkUserId/stats', PrescriptionController.getPrescriptionStats);
 

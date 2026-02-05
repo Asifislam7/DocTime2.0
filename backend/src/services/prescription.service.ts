@@ -11,6 +11,8 @@ import {
 import { Error } from 'mongoose';
 import path from 'path';
 import fs from 'fs';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pdfParse = require('pdf-parse');
 
 export class PrescriptionService {
   // Create a new prescription
@@ -229,6 +231,46 @@ export class PrescriptionService {
       return prescription;
     } catch (error) {
       console.error('Error updating prescription status:', error);
+      throw error;
+    }
+  }
+
+  // Get text content for summarization (extractedText, or extract from PDF, or title+description)
+  static async getPrescriptionTextContent(
+    prescriptionId: string,
+    clerkUserId: string
+  ): Promise<string | null> {
+    try {
+      const prescription = await Prescription.findOne({
+        _id: prescriptionId,
+        clerkUserId
+      }).lean();
+
+      if (!prescription) {
+        return null;
+      }
+
+      if (prescription.extractedText && prescription.extractedText.trim().length > 0) {
+        return prescription.extractedText.trim();
+      }
+
+      if (!fs.existsSync(prescription.filePath)) {
+        const fallback = [prescription.title, prescription.description].filter(Boolean).join('\n');
+        return fallback.length > 0 ? fallback : null;
+      }
+
+      const mimeType = (prescription.mimeType || '').toLowerCase();
+      if (mimeType.includes('pdf')) {
+        const dataBuffer = fs.readFileSync(prescription.filePath);
+        const data = await pdfParse(dataBuffer);
+        const text = (data?.text || '').trim();
+        if (text.length > 0) return text;
+      }
+
+      const fallback = [prescription.title, prescription.description].filter(Boolean).join('\n');
+      return fallback.length > 0 ? fallback : null;
+    } catch (error) {
+      console.error('Error getting prescription text content:', error);
       throw error;
     }
   }

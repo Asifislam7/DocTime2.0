@@ -146,4 +146,38 @@ Please provide a helpful response following the rules above.`;
     
     return "I'm here to help you with DocTime services, your appointments, and general healthcare information. How can I assist you today?";
   }
+
+  /**
+   * Summarize document text (e.g. prescription) in 4-5 brief lines using OpenAI
+   */
+  static async summarizeDocument(documentText: string): Promise<string> {
+    try {
+      const openai = this.initializeOpenAI();
+
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a medical document summarizer. Given the text of a prescription or medical document, provide a brief, clear summary in 4-5 short lines. Focus on: document type, key medications or findings (if any), instructions or notes, and date/doctor if mentioned. Use plain language. Do not give medical advice—only summarize what the document says. Output only the summary, no headings or labels.`
+          },
+          {
+            role: 'user',
+            content: documentText
+          }
+        ],
+        max_tokens: 300,
+        temperature: 0.3
+      });
+
+      const summary = completion.choices[0]?.message?.content?.trim();
+      if (!summary) {
+        throw new Error('No summary generated');
+      }
+      return summary;
+    } catch (error) {
+      console.error('OpenAI summarization error:', error);
+      throw error;
+    }
+  }
 }

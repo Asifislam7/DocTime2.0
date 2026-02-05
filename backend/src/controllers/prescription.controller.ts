@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrescriptionService } from '../services/prescription.service';
+import { ChatbotService } from '../services/chatbot.service';
 import { DocumentType, DocumentStatus } from '../types/prescription.types';
 import multer from 'multer';
 import path from 'path';
@@ -340,6 +341,40 @@ export class PrescriptionController {
         success: false,
         message: 'Error getting prescription statistics',
         error: err instanceof Error ? err.message : 'Unknown error'
+      });
+    }
+  }
+
+  // Get AI summary for prescription
+  static async getPrescriptionSummary(req: Request, res: Response): Promise<void> {
+    try {
+      const { prescriptionId, clerkUserId } = req.params;
+
+      const textContent = await PrescriptionService.getPrescriptionTextContent(
+        prescriptionId,
+        clerkUserId
+      );
+
+      if (!textContent || textContent.length < 10) {
+        res.status(400).json({
+          success: false,
+          message: 'Not enough content to summarize. Document may not be processed yet or has no extractable text.'
+        });
+        return;
+      }
+
+      const summary = await ChatbotService.summarizeDocument(textContent);
+
+      res.status(200).json({
+        success: true,
+        data: { summary }
+      });
+    } catch (error) {
+      console.error('Error generating prescription summary:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error generating summary',
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   }

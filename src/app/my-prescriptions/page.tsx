@@ -16,7 +16,10 @@ import {
   Search, 
   Plus,
   FileImage,
-  File
+  File,
+  Sparkles,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 
@@ -83,6 +86,9 @@ export default function MyPrescriptions() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [summaries, setSummaries] = useState<Record<string, string>>({});
+  const [summaryLoadingId, setSummaryLoadingId] = useState<string | null>(null);
+  const [expandedSummaryId, setExpandedSummaryId] = useState<string | null>(null);
 
   // Upload form state
   const [uploadForm, setUploadForm] = useState({
@@ -288,6 +294,44 @@ export default function MyPrescriptions() {
         title: 'Error',
         message: 'Failed to delete document'
       });
+    }
+  };
+
+  // Fetch AI summary for a prescription
+  const handleGetSummary = async (prescriptionId: string) => {
+    if (!user?.id) return;
+    if (summaries[prescriptionId]) {
+      setExpandedSummaryId((prev) => (prev === prescriptionId ? null : prescriptionId));
+      return;
+    }
+    try {
+      setSummaryLoadingId(prescriptionId);
+      setExpandedSummaryId(prescriptionId);
+      const response = await fetch(
+        `http://localhost:3001/api/v1/prescriptions/${prescriptionId}/user/${user.id}/summary`
+      );
+      const data = await response.json();
+      if (data.success) {
+        setSummaries((prev) => ({ ...prev, [prescriptionId]: data.data.summary }));
+        setExpandedSummaryId(prescriptionId);
+      } else {
+        addToast({
+          type: "error",
+          title: "Summary unavailable",
+          message: data.message || "Could not generate summary",
+        });
+        setExpandedSummaryId((prev) => (prev === prescriptionId ? null : prev));
+      }
+    } catch (error) {
+      console.error("Error fetching summary:", error);
+      addToast({
+        type: "error",
+        title: "Error",
+        message: "Failed to load AI summary",
+      });
+      setExpandedSummaryId((prev) => (prev === prescriptionId ? null : prev));
+    } finally {
+      setSummaryLoadingId(null);
     }
   };
 
@@ -604,6 +648,20 @@ export default function MyPrescriptions() {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => handleGetSummary(prescription._id)}
+                        disabled={summaryLoadingId === prescription._id}
+                        title="Get AI summary"
+                        className="text-[#06A3DA] hover:text-[#057bb5] hover:bg-[#06A3DA]/10"
+                      >
+                        {summaryLoadingId === prescription._id ? (
+                          <span className="animate-spin h-4 w-4 border-2 border-[#06A3DA] border-t-transparent rounded-full inline-block" />
+                        ) : (
+                          <Sparkles className="h-4 w-4" />
+                        )}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleDownload(prescription._id, prescription.originalFileName)}
                       >
                         <Download className="h-4 w-4" />
@@ -618,6 +676,30 @@ export default function MyPrescriptions() {
                       </Button>
                     </div>
                   </div>
+                  {/* AI Summary expandable panel */}
+                  {(summaries[prescription._id] || expandedSummaryId === prescription._id) && (
+                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button
+                        type="button"
+                        onClick={() => setExpandedSummaryId((prev) => (prev === prescription._id ? null : prescription._id))}
+                        className="flex items-center gap-2 text-sm font-medium text-[#06A3DA] hover:text-[#057bb5] mb-2"
+                      >
+                        AI Summary
+                        {expandedSummaryId === prescription._id ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </button>
+                      {expandedSummaryId === prescription._id && (
+                        <div className="rounded-lg bg-[#06A3DA]/5 dark:bg-[#06A3DA]/10 border border-[#06A3DA]/20 p-4 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                          {summaries[prescription._id] || (
+                            <span className="text-gray-500">Loading summary…</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
