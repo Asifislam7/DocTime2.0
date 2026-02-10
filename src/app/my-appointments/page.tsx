@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,13 +54,7 @@ export default function MyAppointmentsPage() {
     "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM"
   ];
 
-  useEffect(() => {
-    if (isLoaded && user?.primaryEmailAddress?.emailAddress) {
-      fetchAppointments();
-    }
-  }, [isLoaded, user]);
-
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
     try {
       setLoading(true);
       const email = user?.primaryEmailAddress?.emailAddress;
@@ -77,7 +71,13 @@ export default function MyAppointmentsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.primaryEmailAddress?.emailAddress]);
+
+  useEffect(() => {
+    if (isLoaded && user?.primaryEmailAddress?.emailAddress) {
+      fetchAppointments();
+    }
+  }, [isLoaded, user?.primaryEmailAddress?.emailAddress, fetchAppointments]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

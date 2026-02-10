@@ -133,8 +133,9 @@ const prescriptionSchema = new Schema({
   toJSON: { 
     virtuals: true,
     transform: function(doc, ret) {
-      if (ret.__v !== undefined) {
-        delete ret.__v;
+      const obj = ret as Record<string, unknown>;
+      if (obj.__v !== undefined) {
+        delete obj.__v;
       }
       return ret;
     }

@@ -188,9 +188,9 @@ export default function AppointmentPage() {
     // Insurance Information Section
     if (data.insuranceProvider || data.insurancePolicyNumber) {
       doc.setFontSize(14);
-      doc.setFont(undefined, "bold");
+      doc.setFont("helvetica", "bold");
       doc.text("Insurance Information", 20, 220);
-      doc.setFont(undefined, "normal");
+      doc.setFont("helvetica", "normal");
       
       doc.setFontSize(10);
       if (data.insuranceProvider) {

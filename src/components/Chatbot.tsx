@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { API_BASE } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,7 @@ import {
   Send, 
   Bot, 
   User, 
-  Loader2,
-  Calendar,
-  Clock,
-  User as UserIcon,
-  FileText,
-  Heart,
-  Shield,
-  Zap
+  Loader2
 } from "lucide-react";
 
 interface Message {
@@ -81,15 +74,7 @@ How can I assist you today?`,
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Fetch user data and appointments when chatbot opens
-  useEffect(() => {
-    if (isOpen && isLoaded && user) {
-      fetchUserData();
-      fetchAppointments();
-    }
-  }, [isOpen, isLoaded, user]);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const email = user?.primaryEmailAddress?.emailAddress;
       if (!email) return;
@@ -99,12 +84,12 @@ How can I assist you today?`,
         const userData = await response.json();
         setUserData(userData.data);
       }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
+    } catch (err) {
+      console.error('Error fetching user data:', err);
     }
-  };
+  }, [user?.primaryEmailAddress?.emailAddress]);
 
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
     try {
       const email = user?.primaryEmailAddress?.emailAddress;
       if (!email) return;
@@ -114,10 +99,18 @@ How can I assist you today?`,
         const data = await response.json();
         setAppointments(data.data || []);
       }
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
+    } catch (err) {
+      console.error('Error fetching appointments:', err);
     }
-  };
+  }, [user?.primaryEmailAddress?.emailAddress]);
+
+  // Fetch user data and appointments when chatbot opens
+  useEffect(() => {
+    if (isOpen && isLoaded && user) {
+      fetchUserData();
+      fetchAppointments();
+    }
+  }, [isOpen, isLoaded, user, fetchUserData, fetchAppointments]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -142,7 +135,7 @@ How can I assist you today?`,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
+    } catch {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: "I apologize, but I'm experiencing some technical difficulties. Please try again in a moment.",
@@ -156,8 +149,6 @@ How can I assist you today?`,
   };
 
   const generateAIResponse = async (userInput: string): Promise<string> => {
-    const prompt = createPrompt(userInput);
-    
     try {
       const response = await fetch(`${API_BASE}/api/v1/chatbot/generate`, {
         method: 'POST',
@@ -177,49 +168,10 @@ How can I assist you today?`,
 
       const data = await response.json();
       return data.data.response;
-    } catch (error) {
+    } catch {
       // Fallback responses for common queries
       return generateFallbackResponse(userInput);
     }
-  };
-
-  const createPrompt = (userInput: string): string => {
-    const context = `
-You are DocTime Assistant, an AI healthcare companion for the DocTime platform. 
-
-DOC TIME INFORMATION:
-- DocTime is a healthcare appointment scheduling platform
-- Our mission is to democratize healthcare access through innovative appointment scheduling
-- We connect patients with healthcare providers seamlessly
-- Available 24/7 for appointment management
-
-USER CONTEXT:
-${userData ? `
-User: ${userData.name}
-Email: ${userData.email}
-Medical History: ${userData.medicalHistory?.join(', ') || 'None recorded'}
-Allergies: ${userData.allergies?.join(', ') || 'None recorded'}
-Current Medications: ${userData.currentMedications?.join(', ') || 'None'}
-Insurance: ${userData.insuranceProvider || 'Not specified'}
-` : 'User not logged in'}
-
-APPOINTMENTS:
-${appointments.length > 0 ? appointments.map(apt => 
-  `- ${apt.doctorName} on ${new Date(apt.appointmentDate).toLocaleDateString()} at ${apt.appointmentTime} (${apt.status}) - ${apt.reason}`
-).join('\n') : 'No appointments found'}
-
-IMPORTANT RULES:
-1. NEVER provide medical advice, treatment recommendations, or remedies
-2. Only share general information that's publicly available
-3. For medical questions, always recommend consulting a healthcare professional
-4. Focus on DocTime services, appointment management, and general healthcare information
-5. Be helpful, friendly, and professional
-
-User Question: ${userInput}
-
-Please provide a helpful response following the rules above.`;
-
-    return context;
   };
 
   const generateFallbackResponse = (userInput: string): string => {
