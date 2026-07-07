@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   SignedIn,
   SignedOut,
@@ -18,6 +19,8 @@ export default function Header() {
   const { user } = useUser();
   const { signOut } = useClerk();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
@@ -29,39 +32,55 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-6 transition-colors duration-300">
-      <div className="container flex h-16 items-center justify-between py-4">
-        <div className="flex items-center gap-2">
-          <Link href="/">
+    <header
+      className={`sticky top-0 z-[100] border-b transition-all duration-300 ${
+        isHome
+          ? "bg-white/95 dark:bg-[#0F172B]/95 backdrop-blur-md border-[#E2E8F0] dark:border-white/10"
+          : "bg-white/95 dark:bg-[#0F172B]/95 backdrop-blur-md border-gray-200/80 dark:border-white/10"
+      }`}
+    >
+      <div className="flex h-16 items-center justify-between max-w-[72rem] mx-auto px-4 md:px-6">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 group">
             <Image
               src="/assets/icons/logo-full.png"
               height={1000}
               width={1000}
               alt="DocTime Logo"
-              className="h-10 w-fit"
+              className="h-8 w-fit"
             />
+            <span className="text-lg font-bold text-[#0F172B] dark:text-white">
+              DocTime
+            </span>
           </Link>
-          <span className="text-xl font-bold text-[#0F172B] dark:text-white transition-colors duration-300">DocTime</span>
         </div>
-        
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
-            Home
-          </Link>
-          <Link href="/#features" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
-            Features
-          </Link>
-          <Link href="/about" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
-            About
-          </Link>
-          <Link href="/#contact" className="text-xl font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] dark:hover:text-[#06A3DA] transition-colors duration-300">
-            Contact
-          </Link>
+
+        <nav className="hidden lg:flex items-center gap-1">
+          {[
+            { href: "/", label: "Home" },
+            { href: "/#services", label: "Services" },
+            { href: "/about", label: "About" },
+            { href: "/my-appointments", label: "My Care" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="px-3 py-2 text-sm font-medium text-[#0F172B] dark:text-white/90 hover:text-[#06A3DA] transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
         
-        <div className="flex items-center gap-4">
-          {/* Theme Toggle */}
+        <div className="flex items-center gap-3">
           <ThemeToggle />
+
+          <Link
+            href="/appointment"
+            className="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold bg-[#06A3DA] hover:bg-[#057bb5] text-white rounded-md transition-colors"
+          >
+            Request appointment
+          </Link>
           
           <SignedIn>
             <div className="relative">
@@ -128,12 +147,12 @@ export default function Header() {
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="px-4 py-2 bg-green-400 hover:bg-green-500 text-white rounded transition-colors duration-300">
+              <button className="px-4 py-2 text-sm font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] transition-colors duration-300">
                 Sign In
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors duration-300">
+              <button className="px-5 py-2 text-sm font-medium bg-[#06A3DA] hover:bg-[#057bb5] text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#06A3DA]/25">
                 Sign Up
               </button>
             </SignUpButton>

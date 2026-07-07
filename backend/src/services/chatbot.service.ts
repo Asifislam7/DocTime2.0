@@ -73,9 +73,19 @@ Your role is to help users with:
 
       return response;
     } catch (error) {
-      console.error('OpenAI API error:', error);
-      
-      // Return fallback response
+      const isQuotaError =
+        error instanceof Error &&
+        (error.message.includes("insufficient_quota") ||
+          error.message.includes("429"));
+
+      if (isQuotaError) {
+        console.warn(
+          "OpenAI quota exceeded — using fallback responses. Add billing at https://platform.openai.com/account/billing"
+        );
+      } else {
+        console.error("OpenAI API error:", error);
+      }
+
       return this.generateFallbackResponse(userInput);
     }
   }

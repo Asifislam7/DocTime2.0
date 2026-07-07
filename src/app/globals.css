@@ -98,6 +98,7 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
+}
 
 /* Chatbot Animations */
 @keyframes chatbot-bounce {
@@ -238,7 +239,6 @@
   border-color: #06A3DA;
   box-shadow: 0 0 0 3px rgba(6, 163, 218, 0.1);
 }
-}
 
 @layer base {
   * {
@@ -339,4 +339,3 @@
 .light {
   color-scheme: light;
 }
-

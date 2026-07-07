@@ -1,26 +1,25 @@
+"use client";
+
 import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-6 transition-colors duration-300">
-      <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-        <div className="flex items-center gap-2">
-          <Image
-            src="/assets/icons/logo-full.png"
-            height={1000}
-            width={1000}
-            alt="DocTime Logo"
-            className="h-10 w-fit"
-          />
-          <span className="text-lg font-bold text-[#0F172B] dark:text-white transition-colors duration-300">DocTime</span>
-        </div>
-        
-        <div className="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
-          <span>© {new Date().getFullYear()} DocTime. All rights reserved.</span>
-        </div>
-        
-        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
-          <span>Healthcare made simple</span>
+    <footer className="border-t border-[#E2E8F0] dark:border-white/10 bg-[#F8FAFC] dark:bg-[#0F172B]">
+      <div className="max-w-[72rem] mx-auto px-4 md:px-6 py-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <Image
+              src="/assets/icons/logo-full.png"
+              height={1000}
+              width={1000}
+              alt="DocTime Logo"
+              className="h-8 w-fit"
+            />
+            <span className="text-lg font-bold text-[#0F172B] dark:text-white">DocTime</span>
+          </div>
+          <p className="text-sm text-[#475569] dark:text-[#94A3B8]">
+            © {new Date().getFullYear()} DocTime. Healthcare made simple.
+          </p>
         </div>
       </div>
     </footer>
