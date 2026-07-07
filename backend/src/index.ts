@@ -1,14 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import userRoutes from './routes/user.routes';
 import appointmentRoutes from './routes/appointment.routes';
 import chatbotRoutes from './routes/chatbot.routes';
 import prescriptionRoutes from './routes/prescription.routes';
-
-// Load environment variables
-dotenv.config();
 
 // Create Express app
 const app = express();

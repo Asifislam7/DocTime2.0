@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env['MONGODB_URI'] || 'mongodb://localhost:27017/doctime';
-
 export const connectDB = async (): Promise<void> => {
+  const MONGODB_URI = process.env['MONGODB_URI'];
+
+  if (!MONGODB_URI) {
+    console.error('❌ MONGODB_URI is not set. Add it to backend/.env');
+    process.exit(1);
+  }
+
   try {
     // Connection options for better performance and reliability
     const options = {
