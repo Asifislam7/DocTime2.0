@@ -278,7 +278,12 @@ export default function AppointmentPage() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorBody = await response.json().catch(() => null);
+        const message =
+          errorBody?.message ||
+          errorBody?.error ||
+          `Request failed (${response.status})`;
+        throw new Error(message);
       }
 
       const result = await response.json();

@@ -17,9 +17,15 @@ export const connectDB = async (): Promise<void> => {
     };
 
     await mongoose.connect(MONGODB_URI, options);
-    
+
+    const dbName = mongoose.connection.name;
     console.log('✅ MongoDB connected successfully');
-    console.log(`📊 Database: ${mongoose.connection.name}`);
+    console.log(`📊 Database: ${dbName}`);
+    if (dbName === 'test') {
+      console.warn(
+        '⚠️  Connected to default "test" database. Add a database name to MONGODB_URI, e.g. ...mongodb.net/doctime?...'
+      );
+    }
     console.log(`🔗 URI: ${MONGODB_URI.replace(/\/\/.*@/, '//***:***@')}`);
 
     // Connection event listeners

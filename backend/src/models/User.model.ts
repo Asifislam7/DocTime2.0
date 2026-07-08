@@ -358,11 +358,7 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-// Indexes for better query performance
-userSchema.index({ clerkUserId: 1 });
-userSchema.index({ email: 1 });
-userSchema.index({ role: 1 });
-userSchema.index({ status: 1 });
+// Compound indexes (single-field indexes come from unique: true / index: true on schema)
 userSchema.index({ role: 1, status: 1 });
 userSchema.index({ email: 1, role: 1 });
 userSchema.index({ createdAt: -1 });
