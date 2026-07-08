@@ -12,8 +12,12 @@ import {
   Send, 
   Bot, 
   User, 
-  Loader2
+  Loader2,
+  Sparkles
 } from "lucide-react";
+
+// Flip to true when OpenAI API key is restored.
+const CHATBOT_ENABLED = false;
 
 interface Message {
   id: string;
@@ -42,12 +46,19 @@ interface AppointmentData {
 export default function Chatbot() {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [appointments, setAppointments] = useState<AppointmentData[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showComingSoon) return;
+    const timer = setTimeout(() => setShowComingSoon(false), 4500);
+    return () => clearTimeout(timer);
+  }, [showComingSoon]);
 
   // Initialize chatbot with welcome message
   useEffect(() => {
@@ -203,19 +214,47 @@ How can I assist you today?`,
     }
   };
 
+  const handleToggle = () => {
+    if (!CHATBOT_ENABLED) {
+      setShowComingSoon(true);
+      return;
+    }
+    setIsOpen(true);
+  };
+
   return (
     <>
-      {/* Chatbot Toggle Button */}
-      <Button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#06A3DA] hover:bg-[#057bb5] text-white shadow-lg hover:shadow-xl transition-all duration-300 z-50"
-        size="icon"
-      >
-        <MessageCircle className="h-6 w-6" />
-      </Button>
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {showComingSoon && (
+          <div
+            role="status"
+            className="max-w-[280px] rounded-2xl border border-[#06A3DA]/25 bg-white/95 px-4 py-3 shadow-xl backdrop-blur-md dark:bg-[#0F172B]/95"
+          >
+            <div className="mb-1 flex items-center gap-2 text-[#06A3DA]">
+              <Sparkles className="h-4 w-4" />
+              <span className="text-xs font-semibold uppercase tracking-[0.14em]">
+                Coming soon
+              </span>
+            </div>
+            <p className="text-sm leading-relaxed text-[#0F172B] dark:text-[#F8FAFC]">
+              DocTime Assistant is getting a glow-up. Hang tight! a sharper,
+              smarter version is on the way.
+            </p>
+          </div>
+        )}
+
+        {/* Chatbot Toggle Button */}
+        <Button
+          onClick={handleToggle}
+          className="h-14 w-14 rounded-full bg-[#06A3DA] text-white shadow-lg transition-all duration-300 hover:bg-[#057bb5] hover:shadow-xl"
+          size="icon"
+        >
+          <MessageCircle className="h-6 w-6" />
+        </Button>
+      </div>
 
       {/* Chatbot Modal */}
-      {isOpen && (
+      {CHATBOT_ENABLED && isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-end justify-end z-50 p-4">
           <Card className="w-full max-w-md h-[600px] bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-2xl">
             {/* Header */}
