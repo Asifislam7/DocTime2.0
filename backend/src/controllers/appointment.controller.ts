@@ -119,23 +119,38 @@ export class AppointmentController {
         }
       }
 
-      // First, create or update user record
-      let user = await User.findOne({ email: formData.email.toLowerCase() });
-      
+      // Find existing user by Clerk ID first, then by email.
+      // One user can book many appointments — we never block on that.
+      const clerkUserId = formData.clerkUserId || `temp_${Date.now()}`;
+      const email = String(formData.email).toLowerCase();
+
+      let user = await User.findOne({
+        $or: [
+          { clerkUserId },
+          { email },
+        ],
+      });
+
       if (!user) {
-        // Create new user
-        const userData = {
-          clerkUserId: formData.clerkUserId || `temp_${Date.now()}`,
-          email: formData.email,
+        user = new User({
+          clerkUserId,
+          email,
           name: formData.name,
           role: 'patient',
           phoneNumber: formData.phoneNumber,
-          dateOfBirth: formData.dateOfBirth instanceof Date ? formData.dateOfBirth : new Date(formData.dateOfBirth),
+          dateOfBirth:
+            formData.dateOfBirth instanceof Date
+              ? formData.dateOfBirth
+              : new Date(formData.dateOfBirth),
           gender: formData.gender,
           address: formData.address,
-          medicalHistory: formData.pastMedicalHistory ? [formData.pastMedicalHistory] : [],
+          medicalHistory: formData.pastMedicalHistory
+            ? [formData.pastMedicalHistory]
+            : [],
           allergies: formData.allergies ? [formData.allergies] : [],
-          currentMedications: formData.currentMedications ? [formData.currentMedications] : [],
+          currentMedications: formData.currentMedications
+            ? [formData.currentMedications]
+            : [],
           familyMedicalHistory: formData.familyMedicalHistory,
           pastMedicalHistory: formData.pastMedicalHistory,
           insuranceProvider: formData.insuranceProvider,
@@ -146,20 +161,31 @@ export class AppointmentController {
             email: formData.emailNotifications,
             sms: formData.smsNotifications,
             push: formData.pushNotifications,
-          }
-        };
-        
-        user = new User(userData);
+          },
+        });
         await user.save();
       } else {
-        // Update existing user with new information
+        // Reuse the same patient and refresh profile details
+        const existingClerkId = String(user.clerkUserId ?? '');
+        if (!existingClerkId || existingClerkId.startsWith('temp_')) {
+          user.clerkUserId = clerkUserId;
+        }
+        user.email = email;
+        user.name = formData.name;
         user.phoneNumber = formData.phoneNumber;
-        user.dateOfBirth = formData.dateOfBirth instanceof Date ? formData.dateOfBirth : new Date(formData.dateOfBirth);
+        user.dateOfBirth =
+          formData.dateOfBirth instanceof Date
+            ? formData.dateOfBirth
+            : new Date(formData.dateOfBirth);
         user.gender = formData.gender;
         user.address = formData.address;
-        user.medicalHistory = formData.pastMedicalHistory ? [formData.pastMedicalHistory] : [];
+        user.medicalHistory = formData.pastMedicalHistory
+          ? [formData.pastMedicalHistory]
+          : [];
         user.allergies = formData.allergies ? [formData.allergies] : [];
-        user.currentMedications = formData.currentMedications ? [formData.currentMedications] : [];
+        user.currentMedications = formData.currentMedications
+          ? [formData.currentMedications]
+          : [];
         user.familyMedicalHistory = formData.familyMedicalHistory;
         user.pastMedicalHistory = formData.pastMedicalHistory;
         user.insuranceProvider = formData.insuranceProvider;
@@ -171,14 +197,16 @@ export class AppointmentController {
           sms: formData.smsNotifications,
           push: formData.pushNotifications,
         };
-        
+
         await user.save();
       }
 
-      // Now create the appointment record
-      const appointment = await AppointmentService.createAppointmentFromForm(formData, user._id.toString());
-      
-      // Add appointment reference to user
+      // Always create a new appointment for this booking
+      const appointment = await AppointmentService.createAppointmentFromForm(
+        formData,
+        user._id.toString()
+      );
+
       user.appointments.push(appointment._id as mongoose.Types.ObjectId);
       await user.save();
       

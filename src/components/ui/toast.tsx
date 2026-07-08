@@ -106,41 +106,41 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) =
     setTimeout(() => onRemove(toast.id), 300);
   };
 
-  // Toast styling based on type
+  // Palette: #FFEED6 #A5AF79 #827148 #E8A07C
   const getToastStyles = () => {
     switch (toast.type) {
       case 'success':
         return {
-          bg: 'bg-green-50 border-green-200',
-          icon: <CheckCircle className="w-5 h-5 text-green-600" />,
-          titleColor: 'text-green-800',
-          messageColor: 'text-green-700',
-          closeColor: 'text-green-400 hover:text-green-600',
+          bg: 'bg-[#FFEED6] border-[#A5AF79]/60',
+          icon: <CheckCircle className="w-5 h-5 text-[#A5AF79]" />,
+          titleColor: 'text-[#827148]',
+          messageColor: 'text-[#827148]/90',
+          closeColor: 'text-[#A5AF79]/70 hover:text-[#827148]',
         };
       case 'error':
         return {
-          bg: 'bg-red-50 border-red-200',
-          icon: <AlertCircle className="w-5 h-5 text-red-600" />,
-          titleColor: 'text-red-800',
-          messageColor: 'text-red-700',
-          closeColor: 'text-red-400 hover:text-red-600',
+          bg: 'bg-[#FFEED6] border-[#E8A07C]/70',
+          icon: <AlertCircle className="w-5 h-5 text-[#E8A07C]" />,
+          titleColor: 'text-[#827148]',
+          messageColor: 'text-[#827148]/90',
+          closeColor: 'text-[#E8A07C]/80 hover:text-[#827148]',
         };
       case 'warning':
         return {
-          bg: 'bg-yellow-50 border-yellow-200',
-          icon: <AlertTriangle className="w-5 h-5 text-yellow-600" />,
-          titleColor: 'text-yellow-800',
-          messageColor: 'text-yellow-700',
-          closeColor: 'text-yellow-400 hover:text-yellow-600',
+          bg: 'bg-[#FFEED6] border-[#E8A07C]/50',
+          icon: <AlertTriangle className="w-5 h-5 text-[#E8A07C]" />,
+          titleColor: 'text-[#827148]',
+          messageColor: 'text-[#827148]/90',
+          closeColor: 'text-[#E8A07C]/70 hover:text-[#827148]',
         };
       case 'info':
       default:
         return {
-          bg: 'bg-blue-50 border-blue-200',
-          icon: <Info className="w-5 h-5 text-blue-600" />,
-          titleColor: 'text-blue-800',
-          messageColor: 'text-blue-700',
-          closeColor: 'text-blue-400 hover:text-blue-600',
+          bg: 'bg-[#FFEED6] border-[#827148]/25',
+          icon: <Info className="w-5 h-5 text-[#827148]" />,
+          titleColor: 'text-[#827148]',
+          messageColor: 'text-[#827148]/85',
+          closeColor: 'text-[#827148]/50 hover:text-[#827148]',
         };
     }
   };
