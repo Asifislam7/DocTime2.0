@@ -6,8 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-instrument-serif);
+  --font-mono: ui-monospace, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,60 +45,77 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --brand-bg: #0a0a0a;
+  --brand-surface: #141414;
+  --brand-surface-elevated: #1c1c1c;
+  --brand-text: #ffffff;
+  --brand-text-muted: rgba(255, 255, 255, 0.65);
+  --brand-accent: #e8723c;
+  --brand-accent-hover: #f08a55;
+  --brand-cream: #f5e6d3;
+  --brand-sage: #a5af79;
+  --brand-border: rgba(255, 255, 255, 0.08);
+
+  --radius: 0.75rem;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #141414;
+  --card-foreground: #ffffff;
+  --popover: #141414;
+  --popover-foreground: #ffffff;
+  --primary: #e8723c;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1c1c1c;
+  --secondary-foreground: #ffffff;
+  --muted: #1c1c1c;
+  --muted-foreground: rgba(255, 255, 255, 0.65);
+  --accent: #1c1c1c;
+  --accent-foreground: #ffffff;
+  --destructive: #e8723c;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #e8723c;
+  --chart-1: #e8723c;
+  --chart-2: #a5af79;
+  --chart-3: #f5e6d3;
+  --chart-4: #827148;
+  --chart-5: #e8a07c;
+  --sidebar: #141414;
+  --sidebar-foreground: #f5f0e8;
+  --sidebar-primary: #e8723c;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1c1c1c;
+  --sidebar-accent-foreground: #f5f0e8;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #e8723c;
+}
+
+.light {
+  --background: #faf8f5;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #e8723c;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ebe3;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f0ebe3;
+  --muted-foreground: #6b6b6b;
+  --accent: #f0ebe3;
+  --accent-foreground: #0a0a0a;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(0, 0, 0, 0.06);
+  --ring: #e8723c;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
+  color-scheme: dark;
+}
+
+.light {
+  color-scheme: light;
 }
 
 /* Chatbot Animations */
@@ -156,7 +174,6 @@
   }
 }
 
-/* Chatbot Utility Classes */
 .chatbot-bounce {
   animation: chatbot-bounce 1s ease-in-out;
 }
@@ -177,10 +194,9 @@
   animation: chatbot-scale-in 0.3s ease-out;
 }
 
-/* Chatbot Hover Effects */
 .chatbot-button:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 25px rgba(6, 163, 218, 0.3);
+  box-shadow: 0 10px 25px rgba(232, 114, 60, 0.35);
 }
 
 .chatbot-message-user {
@@ -191,12 +207,10 @@
   animation: chatbot-fade-in 0.4s ease-out;
 }
 
-/* Chatbot Loading States */
 .chatbot-loading {
   animation: chatbot-pulse 1.5s ease-in-out infinite;
 }
 
-/* Chatbot Typing Indicator */
 .chatbot-typing {
   display: inline-block;
   width: 8px;
@@ -214,7 +228,6 @@
   animation-delay: -0.16s;
 }
 
-/* Responsive Chatbot */
 @media (max-width: 640px) {
   .chatbot-modal {
     width: calc(100vw - 2rem);
@@ -223,49 +236,68 @@
   }
 }
 
-/* Dark Mode Chatbot Enhancements */
 .dark .chatbot-modal {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-  border: 1px solid #374151;
+  background: linear-gradient(135deg, #1c1c1c 0%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .dark .chatbot-input {
-  background: #374151;
-  border-color: #4b5563;
-  color: #f9fafb;
+  background: #1c1c1c;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f5f0e8;
 }
 
 .dark .chatbot-input:focus {
-  border-color: #06A3DA;
-  box-shadow: 0 0 0 3px rgba(6, 163, 218, 0.1);
+  border-color: #e8723c;
+  box-shadow: 0 0 0 3px rgba(232, 114, 60, 0.15);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  
+
   html {
     @apply transition-colors duration-300;
+    letter-spacing: 0.03em;
+    background-color: #0a0a0a;
   }
-  
+
   body {
-    @apply bg-background text-foreground;
-    @apply font-sans;
+    @apply text-foreground;
+    font-family: var(--font-manrope), system-ui, sans-serif;
     margin: 0;
     padding: 0;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+    background-color: #0a0a0a;
     @apply transition-colors duration-300;
+  }
+
+  main {
+    background-color: #0a0a0a;
+  }
+
+  header {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    letter-spacing: 0.04em;
+  }
+
+  p, li, label, a, button, input, textarea, select {
+    letter-spacing: 0.03em;
   }
 }
 
-/* Custom animations for features section */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slide-up {
@@ -287,55 +319,12 @@
   animation: slide-up 0.8s ease-out forwards;
 }
 
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-
-.animation-delay-600 {
-  animation-delay: 600ms;
-}
-
-.animation-delay-700 {
-  animation-delay: 700ms;
-}
-
-.animation-delay-800 {
-  animation-delay: 800ms;
-}
-
-.animation-delay-900 {
-  animation-delay: 900ms;
-}
-
-.animation-delay-1000 {
-  animation-delay: 1000ms;
-}
-
-.animation-delay-1100 {
-  animation-delay: 1100ms;
-}
-
-.animation-delay-1200 {
-  animation-delay: 1200ms;
-}
-
-/* Smooth theme transitions */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
-/* Dark theme specific styles */
-.dark {
-  color-scheme: dark;
-}
-
-/* Light theme specific styles */
-.light {
-  color-scheme: light;
-}
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-800 { animation-delay: 800ms; }
+.animation-delay-900 { animation-delay: 900ms; }
+.animation-delay-1000 { animation-delay: 1000ms; }
+.animation-delay-1100 { animation-delay: 1100ms; }
+.animation-delay-1200 { animation-delay: 1200ms; }

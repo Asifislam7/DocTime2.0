@@ -12,19 +12,21 @@ import {
   useUser,
   useClerk,
 } from "@clerk/nextjs";
-import { ChevronDown, User, Calendar, LogOut, FileText } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
+import { Calendar, LogOut, FileText, User } from "lucide-react";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home", mobile: true },
+  { href: "/#services", label: "Services", mobile: false },
+  { href: "/about", label: "About", mobile: false },
+  { href: "/my-appointments", label: "My Care", mobile: true },
+  { href: "/appointment", label: "Book", mobile: true },
+];
 
 export default function Header() {
   const { user } = useUser();
   const { signOut } = useClerk();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
-
-  const toggleUserMenu = () => {
-    setShowUserMenu(!showUserMenu);
-  };
 
   const handleSignOut = () => {
     signOut();
@@ -32,110 +34,88 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={`sticky top-0 z-[100] border-b transition-all duration-300 ${
-        isHome
-          ? "bg-white/95 dark:bg-[#0F172B]/95 backdrop-blur-md border-[#E2E8F0] dark:border-white/10"
-          : "bg-white/95 dark:bg-[#0F172B]/95 backdrop-blur-md border-gray-200/80 dark:border-white/10"
-      }`}
-    >
-      <div className="flex h-16 items-center justify-between max-w-[72rem] mx-auto px-4 md:px-6">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 group">
-            <Image
-              src="/assets/icons/logo-full.png"
-              height={1000}
-              width={1000}
-              alt="DocTime Logo"
-              className="h-8 w-fit"
-            />
-            <span className="text-lg font-bold text-[#0F172B] dark:text-white">
-              DocTime
-            </span>
-          </Link>
-        </div>
+    <header className="fixed top-0 left-0 right-0 z-[100] pointer-events-none [&_*]:pointer-events-auto">
+      <div className="flex h-16 items-center justify-between max-w-[76rem] mx-auto px-4 md:px-6 bg-transparent">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity"
+        >
+          <Image
+            src="/assets/icons/logo-full.png"
+            height={1000}
+            width={1000}
+            alt="DocTime Logo"
+            className="h-8 w-auto"
+            priority
+          />
+          <span className="text-sm font-medium tracking-wide">DocTime</span>
+        </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
-          {[
-            { href: "/", label: "Home" },
-            { href: "/#services", label: "Services" },
-            { href: "/about", label: "About" },
-            { href: "/my-appointments", label: "My Care" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="px-3 py-2 text-sm font-medium text-[#0F172B] dark:text-white/90 hover:text-[#06A3DA] transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
+        <nav className="flex items-center gap-3 sm:gap-4 md:gap-6">
+          {NAV_LINKS.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-          <Link
-            href="/appointment"
-            className="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold bg-[#06A3DA] hover:bg-[#057bb5] text-white rounded-md transition-colors"
-          >
-            Request appointment
-          </Link>
-          
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium tracking-wide transition-colors ${
+                  item.mobile ? "inline" : "hidden md:inline"
+                } ${
+                  isActive
+                    ? "text-white"
+                    : "text-white/80 hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+
           <SignedIn>
             <div className="relative">
               <button
-                onClick={toggleUserMenu}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                type="button"
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="text-sm font-medium text-white/80 hover:text-white tracking-wide transition-colors bg-transparent border-0 p-0 cursor-pointer"
               >
-                <div className="w-8 h-8 bg-[#06A3DA] rounded-full flex items-center justify-center text-white font-semibold">
-                  {user?.firstName?.charAt(0) || user?.fullName?.charAt(0) || 'U'}
-                </div>
-                <span className="text-[#0F172B] dark:text-white font-medium transition-colors duration-300">
-                  {user?.firstName || user?.fullName || 'User'}
-                </span>
-                <ChevronDown className={`h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${showUserMenu ? 'rotate-180' : ''}`} />
+                {user?.firstName || user?.fullName || "Account"}
               </button>
-              
-              {/* User Dropdown Menu */}
+
               {showUserMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50 transition-all duration-300">
-                  <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{user?.fullName}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{user?.primaryEmailAddress?.emailAddress}</p>
-                  </div>
-                  
-                  <Link 
+                <div className="absolute right-0 mt-3 w-52 bg-[#141414] rounded-lg border border-white/[0.08] py-2 shadow-xl">
+                  <Link
                     href="/my-appointments"
                     onClick={() => setShowUserMenu(false)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/[0.04] transition-colors tracking-wide"
                   >
                     <Calendar className="h-4 w-4" />
                     My Appointments
                   </Link>
-                  
-                  <Link 
+                  <Link
                     href="/my-prescriptions"
                     onClick={() => setShowUserMenu(false)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/[0.04] transition-colors tracking-wide"
                   >
                     <FileText className="h-4 w-4" />
                     My Prescriptions
                   </Link>
-                  
-                  <Link 
+                  <Link
                     href="/appointment"
                     onClick={() => setShowUserMenu(false)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/[0.04] transition-colors tracking-wide"
                   >
                     <User className="h-4 w-4" />
                     Book Appointment
                   </Link>
-                  
-                  <div className="border-t border-gray-100 dark:border-gray-700 mt-2 pt-2">
+                  <div className="border-t border-white/[0.08] mt-1 pt-1">
                     <button
+                      type="button"
                       onClick={handleSignOut}
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-300 w-full text-left"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/[0.04] transition-colors w-full text-left tracking-wide bg-transparent border-0 cursor-pointer"
                     >
                       <LogOut className="h-4 w-4" />
                       Sign Out
@@ -145,25 +125,31 @@ export default function Header() {
               )}
             </div>
           </SignedIn>
+
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="px-4 py-2 text-sm font-medium text-[#0F172B] dark:text-white hover:text-[#06A3DA] transition-colors duration-300">
+              <button
+                type="button"
+                className="text-sm font-medium text-white/80 hover:text-white tracking-wide transition-colors bg-transparent border-0 p-0 cursor-pointer"
+              >
                 Sign In
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <button className="px-5 py-2 text-sm font-medium bg-[#06A3DA] hover:bg-[#057bb5] text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#06A3DA]/25">
+              <button
+                type="button"
+                className="text-sm font-medium text-white/80 hover:text-white tracking-wide transition-colors bg-transparent border-0 p-0 cursor-pointer"
+              >
                 Sign Up
               </button>
             </SignUpButton>
           </SignedOut>
-        </div>
+        </nav>
       </div>
-      
-      {/* Click outside to close menu */}
+
       {showUserMenu && (
-        <div 
-          className="fixed inset-0 z-40" 
+        <div
+          className="fixed inset-0 z-40"
           onClick={() => setShowUserMenu(false)}
         />
       )}

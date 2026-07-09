@@ -27,7 +27,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-[#0A0A0A] transition-colors duration-300">
       {/* Hero Section with Medical Equipment Background */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
@@ -47,17 +47,17 @@ export default function AboutPage() {
         <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
-              About <span className="text-[#06A3DA]">DocTime</span>
+              About <span className="text-[#E8723C]">DocTime</span>
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-8 opacity-90">
               Revolutionizing healthcare access through innovative appointment scheduling and seamless patient-doctor connections.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="group px-8 py-4 bg-[#06A3DA] hover:bg-[#057bb5] text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
+              <button className="group px-8 py-4 bg-[#E8723C] hover:bg-[#F08A55] text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 flex items-center gap-2">
                 <Play className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 Watch Our Story
               </button>
-              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#06A3DA] transition-all duration-300 group">
+              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#E8723C] transition-all duration-300 group">
                 <span className="flex items-center gap-2">
                   Learn More
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -307,7 +307,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-20 bg-gradient-to-r from-[#06A3DA] to-[#057bb5] relative overflow-hidden">
+      <div className="py-20 bg-gradient-to-r from-[#E8723C] to-[#F08A55] relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -323,11 +323,11 @@ export default function AboutPage() {
                 Join thousands of patients and healthcare providers who trust DocTime for their appointment scheduling needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <button className="group px-10 py-5 bg-white text-[#06A3DA] font-bold text-lg rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-2xl flex items-center gap-3">
+                <button className="group px-10 py-5 bg-white text-[#E8723C] font-bold text-lg rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-2xl flex items-center gap-3">
                   <Calendar className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
                   Book Your First Appointment
                 </button>
-                <button className="px-10 py-5 border-3 border-white text-white font-bold text-lg rounded-xl hover:bg-white hover:text-[#06A3DA] transition-all duration-300 group shadow-2xl">
+                <button className="px-10 py-5 border-3 border-white text-white font-bold text-lg rounded-xl hover:bg-white hover:text-[#E8723C] transition-all duration-300 group shadow-2xl">
                   <span className="flex items-center gap-3">
                     Learn More
                     <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />

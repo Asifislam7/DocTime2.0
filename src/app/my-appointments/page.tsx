@@ -197,11 +197,11 @@ export default function MyAppointmentsPage() {
     
     // Header
     doc.setFontSize(20);
-    doc.setTextColor(6, 163, 218); // #06A3DA
+    doc.setTextColor(6, 163, 218); // #E8723C
     doc.text("DocTime", 105, 20, { align: "center" });
     
     doc.setFontSize(16);
-    doc.setTextColor(15, 23, 43); // #0F172B
+    doc.setTextColor(15, 23, 43); // #0A0A0A
     doc.text("Appointment Slip", 105, 35, { align: "center" });
     
     // Add line separator
@@ -259,7 +259,7 @@ export default function MyAppointmentsPage() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#06A3DA] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#E8723C] mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
@@ -348,7 +348,7 @@ export default function MyAppointmentsPage() {
         {/* Loading State */}
         {loading && (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#06A3DA] mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#E8723C] mx-auto"></div>
             <p className="mt-4 text-gray-600 dark:text-gray-400">Loading your appointments...</p>
           </div>
         )}
@@ -382,7 +382,7 @@ export default function MyAppointmentsPage() {
                 </p>
                 <Button 
                   onClick={() => window.location.href = '/appointment'}
-                  className="bg-[#06A3DA] hover:bg-[#057bb5] text-white"
+                  className="bg-[#E8723C] hover:bg-[#F08A55] text-white"
                 >
                   Book Your First Appointment
                 </Button>
@@ -393,11 +393,11 @@ export default function MyAppointmentsPage() {
                   <CardHeader className="pb-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-[#06A3DA] rounded-full flex items-center justify-center">
+                        <div className="w-12 h-12 bg-[#E8723C] rounded-full flex items-center justify-center">
                           <User className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-xl text-gray-900 dark:text-white group-hover:text-[#06A3DA] transition-colors duration-300">
+                          <CardTitle className="text-xl text-gray-900 dark:text-white group-hover:text-[#E8723C] transition-colors duration-300">
                             {appointment.doctorName}
                           </CardTitle>
                           <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -497,7 +497,7 @@ export default function MyAppointmentsPage() {
                         
                         <Button
                           onClick={() => generateAppointmentSlip(appointment)}
-                          className="bg-[#06A3DA] hover:bg-[#057bb5] text-white transition-all duration-300 hover:scale-105"
+                          className="bg-[#E8723C] hover:bg-[#F08A55] text-white transition-all duration-300 hover:scale-105"
                         >
                           <Download className="h-4 w-4 mr-2" />
                           Download Slip
@@ -575,7 +575,7 @@ export default function MyAppointmentsPage() {
                 <Button
                   onClick={handleReschedule}
                   disabled={actionLoading || !rescheduleData.newDate || !rescheduleData.newTime}
-                  className="flex-1 bg-[#06A3DA] hover:bg-[#057bb5] text-white"
+                  className="flex-1 bg-[#E8723C] hover:bg-[#F08A55] text-white"
                 >
                   {actionLoading ? 'Rescheduling...' : 'Reschedule'}
                 </Button>

@@ -111,11 +111,11 @@ export default function AppointmentPage() {
     
     // Add logo/header
     doc.setFontSize(24);
-    doc.setTextColor(6, 163, 218); // #06A3DA
+    doc.setTextColor(6, 163, 218); // #E8723C
     doc.text("DocTime", 105, 20, { align: "center" });
     
     doc.setFontSize(16);
-    doc.setTextColor(15, 23, 43); // #0F172B
+    doc.setTextColor(15, 23, 43); // #0A0A0A
     doc.text("Appointment Receipt", 105, 35, { align: "center" });
     
     // Add line separator
@@ -337,7 +337,7 @@ export default function AppointmentPage() {
   // Show loading state while Clerk loads
   if (!isLoaded) {
     return (
-      <div className="min-h-screen w-full bg-[#0F172B] flex items-center justify-center">
+      <div className="min-h-screen w-full bg-[#0A0A0A] flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
       </div>
     );
@@ -346,9 +346,9 @@ export default function AppointmentPage() {
   // Show sign-in page if user is not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen w-full bg-[#0F172B] flex items-center justify-center">
+      <div className="min-h-screen w-full bg-[#0A0A0A] flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
-          <h2 className="text-2xl font-bold text-[#0F172B] mb-4 text-center">Sign In Required</h2>
+          <h2 className="text-2xl font-bold text-[#0A0A0A] mb-4 text-center">Sign In Required</h2>
           <p className="text-[#6B7280] mb-6 text-center">
             Please sign in to book an appointment.
           </p>
@@ -359,7 +359,7 @@ export default function AppointmentPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0F172B] py-12 px-4">
+    <div className="min-h-screen w-full bg-[#0A0A0A] py-12 px-4">
       <div className="w-full max-w-6xl mx-auto">
         {/* Receipt Download Section - Shows after successful submission */}
         {showReceipt && appointmentData && (
@@ -378,7 +378,7 @@ export default function AppointmentPage() {
               </div>
               <button
                 onClick={() => generateReceipt(appointmentData)}
-                className="px-6 py-3 bg-gradient-to-r from-[#06A3DA] to-[#0F172B] text-white font-semibold rounded-lg hover:scale-105 transition-all duration-200 shadow-lg flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-[#E8723C] to-[#0A0A0A] text-white font-semibold rounded-lg hover:scale-105 transition-all duration-200 shadow-lg flex items-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -401,54 +401,54 @@ export default function AppointmentPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Personal Information Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Personal Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Full Name *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Full Name *</label>
                 <input
                   {...register("name", { required: true })}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                   required
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Email Address *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Email Address *</label>
                 <input
                   {...register("email", { required: true })}
                   type="email"
                   placeholder="johndoe@gmail.com"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                   required
                 />
               </div>
 
               {/* Phone */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Phone Number *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Phone Number *</label>
                 <input
                   {...register("phoneNumber", { required: true })}
                   placeholder="(555) 123-4567"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                   required
                 />
               </div>
 
               {/* Birth Date */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Date of Birth *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Date of Birth *</label>
                 <Controller
                   control={control}
                   name="dateOfBirth"
                   render={({ field }) => (
                     <DatePicker
-                      className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                       selected={field.value}
                       onChange={field.onChange}
                       dateFormat="MM/dd/yyyy"
@@ -461,10 +461,10 @@ export default function AppointmentPage() {
 
               {/* Gender */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Gender *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Gender *</label>
                 <select
                   {...register("gender", { required: true })}
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                   required
                 >
                   <option value="">Select gender</option>
@@ -481,11 +481,11 @@ export default function AppointmentPage() {
 
               {/* Address */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Address</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Address</label>
                 <input
                   {...register("address")}
                   placeholder="123 Main St, City, State 12345"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
             </div>
@@ -493,28 +493,28 @@ export default function AppointmentPage() {
 
           {/* Emergency Contact Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Emergency Contact Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Emergency Contact Name */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Emergency Contact Name</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Emergency Contact Name</label>
                 <input
                   {...register("emergencyContactName")}
                   placeholder="Guardian's name"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
 
               {/* Emergency Contact Number */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Emergency Contact Number</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Emergency Contact Number</label>
                 <input
                   {...register("emergencyContactNumber")}
                   placeholder="(555) 123-4567"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
             </div>
@@ -522,28 +522,28 @@ export default function AppointmentPage() {
 
           {/* Insurance Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Insurance Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Insurance Provider */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Provider</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Insurance Provider</label>
                 <input
                   {...register("insuranceProvider")}
                   placeholder="BlueCross BlueShield"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
 
               {/* Insurance Policy Number */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Insurance Policy Number</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Insurance Policy Number</label>
                 <input
                   {...register("insurancePolicyNumber")}
                   placeholder="ABC123456789"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
             </div>
@@ -551,21 +551,21 @@ export default function AppointmentPage() {
 
           {/* Medical Information Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Medical Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Primary Physician */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Primary Care Physician *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Primary Care Physician *</label>
                 <Controller
                   control={control}
                   name="primaryPhysician"
                   render={({ field }) => (
                     <Listbox value={field.value} onChange={value => { field.onChange(value); setSelectedDoctor(Doctors.find(d => d.name === value) || Doctors[0]); }}>
                       <div className="relative">
-                        <Listbox.Button className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 flex items-center gap-2">
+                        <Listbox.Button className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 flex items-center gap-2">
                           {selectedDoctor && (
                             <>
                               <Image src={selectedDoctor.image} alt={selectedDoctor.name} width={32} height={32} className="rounded-full border" />
@@ -578,7 +578,7 @@ export default function AppointmentPage() {
                             <Listbox.Option
                               key={doctor.name + i}
                               value={doctor.name}
-                              className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-[#06A3DA]/10"
+                              className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-[#E8723C]/10"
                             >
                               <Image src={doctor.image} alt={doctor.name} width={32} height={32} className="rounded-full border" />
                               <span>{doctor.name}</span>
@@ -594,13 +594,13 @@ export default function AppointmentPage() {
 
               {/* Schedule */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Expected Appointment Date *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Expected Appointment Date *</label>
                 <Controller
                   control={control}
                   name="schedule"
                   render={({ field }) => (
                     <DatePicker
-                      className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                       selected={field.value}
                       onChange={field.onChange}
                       showTimeSelect
@@ -617,11 +617,11 @@ export default function AppointmentPage() {
             <div className="mt-6 space-y-6">
               {/* Reason */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Appointment Reason *</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Appointment Reason *</label>
                 <textarea
                   {...register("reason", { required: true })}
                   placeholder="Annual monthly check-up"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                   required
                 />
@@ -629,55 +629,55 @@ export default function AppointmentPage() {
 
               {/* Allergies */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Allergies (if any)</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Allergies (if any)</label>
                 <textarea
                   {...register("allergies")}
                   placeholder="Peanuts, Penicillin, Pollen"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
               </div>
 
               {/* Current Medication */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Current Medications</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Current Medications</label>
                 <textarea
                   {...register("currentMedications")}
                   placeholder="Ibuprofen 200mg, Levothyroxine 50mcg"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
               </div>
 
               {/* Family Medical History */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Family Medical History (if relevant)</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Family Medical History (if relevant)</label>
                 <textarea
                   {...register("familyMedicalHistory")}
                   placeholder="Mother had brain cancer, Father has hypertension"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
               </div>
 
               {/* Past Medical History */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Past Medical History</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Past Medical History</label>
                 <textarea
                   {...register("pastMedicalHistory")}
                   placeholder="Appendectomy in 2015, Asthma diagnosis in childhood"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
               </div>
 
               {/* Notes */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Additional Comments/Notes</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Additional Comments/Notes</label>
                 <textarea
                   {...register("note")}
                   placeholder="Prefer afternoon appointments, if possible. Any other relevant information..."
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200 resize-none"
                   rows={3}
                 />
               </div>
@@ -686,7 +686,7 @@ export default function AppointmentPage() {
 
           {/* Notification Preferences Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Notification Preferences
             </h3>
             
@@ -696,9 +696,9 @@ export default function AppointmentPage() {
                   {...register("emailNotifications")}
                   type="checkbox"
                   id="emailNotifications"
-                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="emailNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="emailNotifications" className="text-[#0A0A0A] text-sm leading-relaxed">
                   Email Notifications
                 </label>
               </div>
@@ -708,9 +708,9 @@ export default function AppointmentPage() {
                   {...register("smsNotifications")}
                   type="checkbox"
                   id="smsNotifications"
-                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="smsNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="smsNotifications" className="text-[#0A0A0A] text-sm leading-relaxed">
                   SMS Notifications
                 </label>
               </div>
@@ -720,9 +720,9 @@ export default function AppointmentPage() {
                   {...register("pushNotifications")}
                   type="checkbox"
                   id="pushNotifications"
-                  className="h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="pushNotifications" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="pushNotifications" className="text-[#0A0A0A] text-sm leading-relaxed">
                   Push Notifications
                 </label>
               </div>
@@ -731,17 +731,17 @@ export default function AppointmentPage() {
 
           {/* Identification Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Identification and Verification
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Identification Type */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Identification Type</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Identification Type</label>
                 <select
                   {...register("identificationType")}
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 >
                   <option value="">Select identification type</option>
                   {IdentificationTypes.map((type) => (
@@ -752,11 +752,11 @@ export default function AppointmentPage() {
 
               {/* Identification Number */}
               <div>
-                <label className="block mb-2 font-semibold text-[#0F172B]">Identification Number</label>
+                <label className="block mb-2 font-semibold text-[#0A0A0A]">Identification Number</label>
                 <input
                   {...register("identificationNumber")}
                   placeholder="123456789"
-                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0F172B] border border-blue-100 focus:border-[#06A3DA] focus:ring-2 focus:ring-[#06A3DA] outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-[#F4F6F8] text-[#0A0A0A] border border-blue-100 focus:border-[#E8723C] focus:ring-2 focus:ring-[#E8723C] outline-none transition-all duration-200"
                 />
               </div>
             </div>
@@ -764,7 +764,7 @@ export default function AppointmentPage() {
 
           {/* Consent Section */}
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-[#0F172B] mb-6 border-b border-gray-200 pb-3">
+            <h3 className="text-2xl font-bold text-[#0A0A0A] mb-6 border-b border-gray-200 pb-3">
               Consent and Privacy
             </h3>
             
@@ -774,9 +774,9 @@ export default function AppointmentPage() {
                   {...register("treatmentConsent")}
                   type="checkbox"
                   id="treatmentConsent"
-                  className="mt-1 h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="mt-1 h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="treatmentConsent" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="treatmentConsent" className="text-[#0A0A0A] text-sm leading-relaxed">
                   I consent to receive treatment for my health condition.
                 </label>
               </div>
@@ -786,9 +786,9 @@ export default function AppointmentPage() {
                   {...register("disclosureConsent")}
                   type="checkbox"
                   id="disclosureConsent"
-                  className="mt-1 h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="mt-1 h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="disclosureConsent" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="disclosureConsent" className="text-[#0A0A0A] text-sm leading-relaxed">
                   I consent to the use and disclosure of my health information for treatment purposes.
                 </label>
               </div>
@@ -798,9 +798,9 @@ export default function AppointmentPage() {
                   {...register("privacyConsent")}
                   type="checkbox"
                   id="privacyConsent"
-                  className="mt-1 h-4 w-4 text-[#06A3DA] border-gray-300 rounded focus:ring-[#06A3DA] focus:ring-2"
+                  className="mt-1 h-4 w-4 text-[#E8723C] border-gray-300 rounded focus:ring-[#E8723C] focus:ring-2"
                 />
-                <label htmlFor="privacyConsent" className="text-[#0F172B] text-sm leading-relaxed">
+                <label htmlFor="privacyConsent" className="text-[#0A0A0A] text-sm leading-relaxed">
                   I acknowledge that I have reviewed and agree to the privacy policy.
                 </label>
               </div>
@@ -812,7 +812,7 @@ export default function AppointmentPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="relative overflow-hidden px-12 py-4 rounded-lg bg-gradient-to-r from-[#06A3DA] to-[#0F172B] text-white font-bold text-xl shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative overflow-hidden px-12 py-4 rounded-lg bg-gradient-to-r from-[#E8723C] to-[#0A0A0A] text-white font-bold text-xl shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10">
                 {isSubmitting ? "Submitting..." : "Submit Appointment"}

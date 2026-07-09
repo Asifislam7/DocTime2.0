@@ -1,3 +1,9 @@
+export const STATS = [
+  { value: "50+", label: "Specialist doctors" },
+  { value: "10k+", label: "Appointments booked" },
+  { value: "24/7", label: "Online scheduling" },
+];
+
 export const CARE_INTENTS = [
   {
     title: "I need care now",
@@ -37,7 +43,7 @@ export const SPECIALTIES = [
 export const VALUE_PROPS = [
   {
     title: "Advanced specialty care",
-    desc: "Our doctors are experienced specialists with expertise in managing complex healthcare needs.",
+    desc: "Experienced specialists with expertise in managing complex healthcare needs.",
   },
   {
     title: "Seamless scheduling",
@@ -49,7 +55,7 @@ export const VALUE_PROPS = [
   },
   {
     title: "AI-powered support",
-    desc: "Get instant guidance about appointments and DocTime services with our intelligent assistant.",
+    desc: "Get instant guidance about appointments and DocTime services with our assistant.",
   },
 ];
 
@@ -59,3 +65,10 @@ export const QUICK_LINKS = [
   { label: "My appointments", href: "/my-appointments" },
   { label: "About DocTime", href: "/about" },
 ];
+
+export const TESTIMONIAL = {
+  quote:
+    "DocTime made booking my specialist visit effortless. I had my appointment confirmed in minutes — no phone calls, no waiting.",
+  author: "Sarah M.",
+  role: "DocTime patient",
+};

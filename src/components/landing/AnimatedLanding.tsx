@@ -7,19 +7,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowRight,
-  Search,
   Calendar,
-  MapPin,
   Stethoscope,
   Shield,
   Clock,
   Bot,
 } from "lucide-react";
 import {
+  STATS,
   CARE_INTENTS,
   SPECIALTIES,
   VALUE_PROPS,
   QUICK_LINKS,
+  TESTIMONIAL,
 } from "./constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,12 +30,12 @@ export default function AnimatedLanding() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".dt-reveal-hero > *", {
-        y: 40,
+        y: 48,
         opacity: 0,
-        duration: 0.9,
-        stagger: 0.12,
+        duration: 1,
+        stagger: 0.14,
         ease: "power3.out",
-        delay: 0.15,
+        delay: 0.1,
       });
 
       gsap.utils.toArray<HTMLElement>(".dt-animate-section").forEach((section) => {
@@ -48,10 +48,10 @@ export default function AnimatedLanding() {
             start: "top 85%",
             toggleActions: "play none none none",
           },
-          y: 32,
+          y: 36,
           opacity: 0,
-          duration: 0.75,
-          stagger: 0.08,
+          duration: 0.8,
+          stagger: 0.1,
           ease: "power3.out",
         });
       });
@@ -60,55 +60,99 @@ export default function AnimatedLanding() {
     return () => ctx.revert();
   }, []);
 
+  const featureIcons = [Stethoscope, Clock, Shield, Bot];
+
   return (
     <div ref={rootRef} className="dt-home">
-      {/* Hero — UCSF "Your health, our priority" */}
-      <section className="dt-hero-ucsf">
-        <div className="dt-hero-ucsf__bg" aria-hidden="true" />
+      {/* Hero */}
+      <section className="dt-hero">
+        <div className="dt-hero__glow" aria-hidden="true" />
         <div className="dt-container dt-reveal-hero">
-          <p className="dt-eyebrow">DocTime Healthcare</p>
-          <h1 className="dt-hero-ucsf__title">Your health, our priority</h1>
-          <p className="dt-hero-ucsf__subtitle">How can we help you today?</p>
-
-          <div className="dt-hero-search">
-            <Search className="dt-hero-search__icon" aria-hidden="true" />
-            <input
-              type="text"
-              placeholder="Search doctors, services, or specialties"
-              className="dt-hero-search__input"
-              readOnly
-              onFocus={(e) => e.target.blur()}
-            />
-            <Link href="/appointment" className="dt-hero-search__btn">
-              Search
+          <p className="dt-label">DocTime Healthcare</p>
+          <h1 className="dt-hero__title">
+            Healthcare that evolves
+            <span className="dt-hero__title-accent">with you</span>
+          </h1>
+          <p className="dt-hero__lead">
+            More than appointments — seamless scheduling, secure records, and
+            care that adapts to your life.
+          </p>
+          <div className="dt-hero__cta">
+            <Link href="/appointment" className="dt-btn-primary">
+              Get started
+              <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
-
-          <div className="dt-hero-actions">
-            <Link href="/appointment" className="dt-hero-action">
-              <Stethoscope className="h-5 w-5" />
-              <span>Find a doctor</span>
-            </Link>
-            <span className="dt-hero-divider" aria-hidden="true" />
-            <Link href="/appointment" className="dt-hero-action">
-              <Calendar className="h-5 w-5" />
-              <span>Book appointment</span>
+            <Link href="#services" className="dt-btn-ghost">
+              Explore services
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Great care starts here */}
-      <section className="dt-section dt-animate-section">
+      {/* Stats */}
+      <section className="dt-stats dt-animate-section">
         <div className="dt-container">
-          <div className="dt-section-intro dt-reveal-item">
-            <h2 className="dt-section-title">Great care starts here</h2>
-            <p className="dt-section-lead">
-              Whether you have a pressing health concern or are planning ahead,
-              we&apos;re here to support you every step of the way.
+          <p className="dt-stats__label dt-reveal-item">Trusted by patients across the region</p>
+          <div className="dt-stats__grid">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="dt-reveal-item">
+                <div className="dt-stat__number">{stat.value}</div>
+                <div className="dt-stat__label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section className="dt-mission dt-animate-section">
+        <div className="dt-container">
+          <div className="dt-mission__inner dt-reveal-item">
+            <p className="dt-mission__eyebrow">
+              Care that remembers you
+            </p>
+            <p className="dt-mission__text">
+              In a world where healthcare often feels fragmented, we believe the
+              most important thing is giving you <strong>control over your health
+              journey</strong> — to book when you need, access records when you
+              want, and connect with specialists who truly understand you.
             </p>
           </div>
+        </div>
+      </section>
 
+      {/* Features grid */}
+      <section className="dt-section dt-animate-section">
+        <div className="dt-container">
+          <div className="dt-section-header dt-reveal-item">
+            <h2 className="dt-section-title">Built for modern care</h2>
+            <p className="dt-section-lead">
+              Everything you need to manage your health — in one place.
+            </p>
+          </div>
+          <div className="dt-feature-grid">
+            {VALUE_PROPS.map((item, i) => {
+              const Icon = featureIcons[i] ?? Stethoscope;
+              return (
+                <article key={item.title} className="dt-feature-card dt-reveal-item">
+                  <div className="dt-feature-card__icon">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Care intents */}
+      <section className="dt-section dt-section--surface dt-animate-section">
+        <div className="dt-container">
+          <div className="dt-section-header dt-reveal-item">
+            <h2 className="dt-section-title">How can we help?</h2>
+          </div>
           <div className="dt-intent-grid">
             {CARE_INTENTS.map((intent) => (
               <article key={intent.title} className="dt-intent-card dt-reveal-item">
@@ -130,7 +174,7 @@ export default function AnimatedLanding() {
       </section>
 
       {/* Specialties */}
-      <section id="services" className="dt-section dt-section--muted dt-animate-section">
+      <section id="services" className="dt-section dt-animate-section">
         <div className="dt-container">
           <div className="dt-section-header dt-reveal-item">
             <h2 className="dt-section-title">Expert care in every specialty</h2>
@@ -138,7 +182,6 @@ export default function AnimatedLanding() {
               See all specialties <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-
           <div className="dt-specialty-grid">
             {SPECIALTIES.map((spec) => (
               <Link
@@ -162,25 +205,37 @@ export default function AnimatedLanding() {
         </div>
       </section>
 
-      {/* Value props */}
+      {/* Testimonial */}
+      <section className="dt-testimonial dt-section--surface dt-animate-section">
+        <div className="dt-container">
+          <blockquote className="dt-testimonial__quote dt-reveal-item">
+            &ldquo;{TESTIMONIAL.quote}&rdquo;
+          </blockquote>
+          <div className="dt-testimonial__author dt-reveal-item">
+            <strong>{TESTIMONIAL.author}</strong>
+            {TESTIMONIAL.role}
+          </div>
+        </div>
+      </section>
+
+      {/* Value props split */}
       <section className="dt-section dt-animate-section">
         <div className="dt-container">
           <div className="dt-split-layout">
             <div className="dt-split-layout__content dt-reveal-item">
               <h2 className="dt-section-title">Our doctors specialize in you</h2>
-              <p className="dt-section-lead">
+              <p className="dt-section-lead" style={{ marginTop: "1rem", marginBottom: "2rem" }}>
                 At DocTime, you get access to trusted specialists, seamless
                 scheduling, and tools that put your health journey in your hands.
               </p>
-              <Link href="/about" className="dt-btn-primary">
+              <Link href="/about" className="dt-btn-accent">
                 About DocTime
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-
             <div className="dt-value-grid">
               {VALUE_PROPS.map((item, i) => {
-                const icons = [Stethoscope, Clock, Shield, Bot];
+                const icons = [Stethoscope, Calendar, Shield, Bot];
                 const Icon = icons[i] ?? Stethoscope;
                 return (
                   <article key={item.title} className="dt-value-card dt-reveal-item">
@@ -197,49 +252,25 @@ export default function AnimatedLanding() {
         </div>
       </section>
 
-      {/* Banner CTA */}
+      {/* CTA banner */}
       <section className="dt-banner dt-animate-section">
         <div className="dt-banner__bg" aria-hidden="true" />
         <div className="dt-container dt-banner__content dt-reveal-item">
           <h2>World-class medicine. Compassionate care.</h2>
           <p>Schedule your next visit with a DocTime specialist today.</p>
-          <Link href="/appointment" className="dt-btn-white">
+          <Link href="/appointment" className="dt-btn-primary">
             Request appointment
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
 
-      {/* Locations teaser */}
-      <section className="dt-section dt-animate-section">
-        <div className="dt-container dt-locations">
-          <div className="dt-locations__content dt-reveal-item">
-            <h2 className="dt-section-title">Excellent care, wherever you are</h2>
-            <p className="dt-section-lead">
-              Connect with healthcare providers through virtual and in-person
-              appointments — access quality care close to home.
-            </p>
-            <Link href="/appointment" className="dt-btn-outline">
-              <MapPin className="h-4 w-4" />
-              Find a provider
-            </Link>
-          </div>
-          <div className="dt-locations__visual dt-reveal-item">
-            <Image
-              src="/assets/images/landing.jpg"
-              alt="Healthcare facility"
-              width={600}
-              height={400}
-              className="dt-locations__image"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Quick links */}
-      <section className="dt-section dt-section--quick dt-animate-section">
+      <section className="dt-section dt-animate-section">
         <div className="dt-container">
-          <h2 className="dt-section-title dt-reveal-item">I want to…</h2>
+          <h2 className="dt-section-title dt-reveal-item" style={{ marginBottom: "2rem" }}>
+            I want to…
+          </h2>
           <div className="dt-quick-grid">
             {QUICK_LINKS.map((link) => (
               <Link

@@ -465,7 +465,7 @@ export default function MyPrescriptions() {
               <SelectItem value="failed">Failed</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={() => setShowUploadForm(true)} className="bg-[#06A3DA] hover:bg-[#057bb5]">
+          <Button onClick={() => setShowUploadForm(true)} className="bg-[#E8723C] hover:bg-[#F08A55]">
             <Plus className="h-4 w-4 mr-2" />
             Upload Document
           </Button>
@@ -571,7 +571,7 @@ export default function MyPrescriptions() {
                     <Button
                       type="submit"
                       disabled={uploading}
-                      className="bg-[#06A3DA] hover:bg-[#057bb5]"
+                      className="bg-[#E8723C] hover:bg-[#F08A55]"
                     >
                       {uploading ? 'Uploading...' : 'Upload Document'}
                     </Button>
@@ -585,7 +585,7 @@ export default function MyPrescriptions() {
         {/* Documents List */}
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#06A3DA]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E8723C]"></div>
           </div>
         ) : prescriptions.length === 0 ? (
           <Card>
@@ -597,7 +597,7 @@ export default function MyPrescriptions() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Upload your first medical document or prescription to get started
               </p>
-              <Button onClick={() => setShowUploadForm(true)} className="bg-[#06A3DA] hover:bg-[#057bb5]">
+              <Button onClick={() => setShowUploadForm(true)} className="bg-[#E8723C] hover:bg-[#F08A55]">
                 <Plus className="h-4 w-4 mr-2" />
                 Upload Document
               </Button>
@@ -652,10 +652,10 @@ export default function MyPrescriptions() {
                         onClick={() => handleGetSummary(prescription._id)}
                         disabled={summaryLoadingId === prescription._id}
                         title="Get AI summary"
-                        className="text-[#06A3DA] hover:text-[#057bb5] hover:bg-[#06A3DA]/10"
+                        className="text-[#E8723C] hover:text-[#F08A55] hover:bg-[#E8723C]/10"
                       >
                         {summaryLoadingId === prescription._id ? (
-                          <span className="animate-spin h-4 w-4 border-2 border-[#06A3DA] border-t-transparent rounded-full inline-block" />
+                          <span className="animate-spin h-4 w-4 border-2 border-[#E8723C] border-t-transparent rounded-full inline-block" />
                         ) : (
                           <Sparkles className="h-4 w-4" />
                         )}
@@ -683,7 +683,7 @@ export default function MyPrescriptions() {
                       <button
                         type="button"
                         onClick={() => setExpandedSummaryId((prev) => (prev === prescription._id ? null : prescription._id))}
-                        className="flex items-center gap-2 text-sm font-medium text-[#06A3DA] hover:text-[#057bb5] mb-2"
+                        className="flex items-center gap-2 text-sm font-medium text-[#E8723C] hover:text-[#F08A55] mb-2"
                       >
                         AI Summary
                         {expandedSummaryId === prescription._id ? (
@@ -693,7 +693,7 @@ export default function MyPrescriptions() {
                         )}
                       </button>
                       {expandedSummaryId === prescription._id && (
-                        <div className="rounded-lg bg-[#06A3DA]/5 dark:bg-[#06A3DA]/10 border border-[#06A3DA]/20 p-4 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                        <div className="rounded-lg bg-[#E8723C]/5 dark:bg-[#E8723C]/10 border border-[#E8723C]/20 p-4 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
                           {summaries[prescription._id] || (
                             <span className="text-gray-500">Loading summary…</span>
                           )}

@@ -228,15 +228,15 @@ How can I assist you today?`,
         {showComingSoon && (
           <div
             role="status"
-            className="max-w-[280px] rounded-2xl border border-[#06A3DA]/25 bg-white/95 px-4 py-3 shadow-xl backdrop-blur-md dark:bg-[#0F172B]/95"
+            className="max-w-[280px] rounded-2xl border border-[#E8723C]/25 bg-white/95 px-4 py-3 shadow-xl backdrop-blur-md dark:bg-[#0A0A0A]/95"
           >
-            <div className="mb-1 flex items-center gap-2 text-[#06A3DA]">
+            <div className="mb-1 flex items-center gap-2 text-[#E8723C]">
               <Sparkles className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase tracking-[0.14em]">
                 Coming soon
               </span>
             </div>
-            <p className="text-sm leading-relaxed text-[#0F172B] dark:text-[#F8FAFC]">
+            <p className="text-sm leading-relaxed text-[#0A0A0A] dark:text-[#F5F0E8]">
               DocTime Assistant is getting a glow-up. Hang tight! a sharper,
               smarter version is on the way.
             </p>
@@ -246,7 +246,7 @@ How can I assist you today?`,
         {/* Chatbot Toggle Button */}
         <Button
           onClick={handleToggle}
-          className="h-14 w-14 rounded-full bg-[#06A3DA] text-white shadow-lg transition-all duration-300 hover:bg-[#057bb5] hover:shadow-xl"
+          className="h-14 w-14 rounded-full bg-[#E8723C] text-white shadow-lg transition-all duration-300 hover:bg-[#F08A55] hover:shadow-xl"
           size="icon"
         >
           <MessageCircle className="h-6 w-6" />
@@ -258,7 +258,7 @@ How can I assist you today?`,
         <div className="fixed inset-0 bg-black/50 flex items-end justify-end z-50 p-4">
           <Card className="w-full max-w-md h-[600px] bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-[#06A3DA] text-white rounded-t-lg">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-[#E8723C] text-white rounded-t-lg">
               <div className="flex items-center gap-2">
                 <Bot className="h-5 w-5" />
                 <h3 className="font-semibold">DocTime Assistant</h3>
@@ -284,7 +284,7 @@ How can I assist you today?`,
                     }`}
                   >
                     {message.role === 'assistant' && (
-                      <div className="w-8 h-8 bg-[#06A3DA] rounded-full flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 bg-[#E8723C] rounded-full flex items-center justify-center flex-shrink-0">
                         <Bot className="h-4 w-4 text-white" />
                       </div>
                     )}
@@ -292,7 +292,7 @@ How can I assist you today?`,
                     <div
                       className={`max-w-[80%] p-3 rounded-lg ${
                         message.role === 'user'
-                          ? 'bg-[#06A3DA] text-white'
+                          ? 'bg-[#E8723C] text-white'
                           : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
                       }`}
                     >
@@ -314,12 +314,12 @@ How can I assist you today?`,
                 
                 {isLoading && (
                   <div className="flex gap-3 justify-start">
-                    <div className="w-8 h-8 bg-[#06A3DA] rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 bg-[#E8723C] rounded-full flex items-center justify-center flex-shrink-0">
                       <Bot className="h-4 w-4 text-white" />
                     </div>
                     <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin text-[#06A3DA]" />
+                        <Loader2 className="h-4 w-4 animate-spin text-[#E8723C]" />
                         <span className="text-sm text-gray-600 dark:text-gray-400">Thinking...</span>
                       </div>
                     </div>
@@ -344,7 +344,7 @@ How can I assist you today?`,
                 <Button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="bg-[#06A3DA] hover:bg-[#057bb5] text-white"
+                  className="bg-[#E8723C] hover:bg-[#F08A55] text-white"
                   size="icon"
                 >
                   <Send className="h-4 w-4" />
