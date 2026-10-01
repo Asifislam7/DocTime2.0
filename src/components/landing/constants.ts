@@ -68,7 +68,7 @@ export const QUICK_LINKS = [
 
 export const TESTIMONIAL = {
   quote:
-    "DocTime made booking my specialist visit effortless. I had my appointment confirmed in minutes — no phone calls, no waiting.",
+    "DocTime made booking my specialist visit effortless. I had my appointment confirmed in minutes, no phone calls, no waiting.",
   author: "Sarah M.",
   role: "DocTime patient",
 };

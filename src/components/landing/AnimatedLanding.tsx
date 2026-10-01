@@ -74,7 +74,7 @@ export default function AnimatedLanding() {
             <span className="dt-hero__title-accent">with you</span>
           </h1>
           <p className="dt-hero__lead">
-            More than appointments — seamless scheduling, secure records, and
+            More than appointments ! Seamless scheduling, secure records, and
             care that adapts to your life.
           </p>
           <div className="dt-hero__cta">
@@ -114,7 +114,7 @@ export default function AnimatedLanding() {
             <p className="dt-mission__text">
               In a world where healthcare often feels fragmented, we believe the
               most important thing is giving you <strong>control over your health
-              journey</strong> — to book when you need, access records when you
+              journey</strong> to book when you need, access records when you
               want, and connect with specialists who truly understand you.
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function AnimatedLanding() {
           <div className="dt-section-header dt-reveal-item">
             <h2 className="dt-section-title">Built for modern care</h2>
             <p className="dt-section-lead">
-              Everything you need to manage your health — in one place.
+              Everything you need to manage your health in one place.
             </p>
           </div>
           <div className="dt-feature-grid">
